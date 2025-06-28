@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: block;
+            width: 200px;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Logo -->
+    <img src="/static/img/logo.png" alt="Logo" class="logo">
+
+    <!-- Bienvenida -->
+    <h1>BIENVENIDO</h1>
+
+    <!-- Botones -->
+    <a href="/usuario/registro/" class="btn">REGÍSTRATE</a>
+    <a href="/usuario/login/" class="btn">INICIAR SESIÓN</a>
+</div>
+
+</body>
+</html>
