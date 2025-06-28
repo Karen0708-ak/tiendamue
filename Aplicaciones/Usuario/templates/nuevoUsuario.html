@@ -1,0 +1,93 @@
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #202B38, #1a2330);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .container {
+    background: #fff;
+    padding: 60px 50px;
+    border-radius: 25px;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+    width: 400px;
+    max-width: 90vw;
+    text-align: center;
+    color: #202B38;
+  }
+
+  .container h2 {
+    font-weight: 700;
+    font-size: 2.4rem;
+    margin-bottom: 30px;
+    letter-spacing: 1.2px;
+  }
+
+  form label {
+    display: block;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #333;
+  }
+
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  form input[type="text"]:focus,
+  form input[type="email"]:focus,
+  form input[type="password"]:focus {
+    outline: none;
+    border-color: #ff264a;
+    box-shadow: 0 0 8px rgba(255, 38, 74, 0.5);
+  }
+
+  form button {
+    width: 100%;
+    padding: 14px 0;
+    background-color: #ff264a;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    letter-spacing: 1px;
+  }
+
+  form button:hover {
+    background-color: #e0213f;
+  }
+</style>
+
+<div class="container">
+  <h2>Registro</h2>
+  <form action="{% url 'guardaregistro' %}" method="post">
+    {% csrf_token %}
+    <label for="usuario">Usuario:</label>
+    <input type="text" name="usuario" id="usuario" required>
+
+    <label for="email">Correo electrónico:</label>
+    <input type="email" name="correo" id="email" required>
+
+    <label for="contrasena">Contraseña:</label>
+    <input type="password" name="contrasena" id="contrasena" required>
+
+    <button type="submit">Registrarse</button>
+  </form>
+</div>
