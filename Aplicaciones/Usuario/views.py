@@ -4,3 +4,6 @@ from .models import Usuario
 def index(request):
     usuario = Usuario.objects.all()
     return render(request, 'index.html')
+def inicio(request):
+    inicio=Usuario.objects.all()
+    return render(request, 'inicios.html')
