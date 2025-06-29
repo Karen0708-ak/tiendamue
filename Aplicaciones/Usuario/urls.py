@@ -6,4 +6,8 @@ urlpatterns = [
     path('inicios', views.inicio, name='inicios'),
     path('nuevoUsuario',views.nuevoUsuario,name='nuevoUsuario'),
     path('guardaregistro', views.guardaregistro,name='guardaregistro'),
+    path('iniciosesion', views.iniciosesion,name='iniciosesion'),
+    path('cerrarsesion', views.cerrarsesion,name='cerrarsesion'),
+
+
 ]

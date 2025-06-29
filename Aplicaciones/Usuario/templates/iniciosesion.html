@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <!-- SweetAlert2 -->
+      <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>REGISTRO</title>
-    
+    <meta charset="UTF-8">
+    <title>Inicio de sesion</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -93,23 +92,33 @@
         <img src="/static/img/logo.png" alt="Logo" class="logo">
     </a>
 
-    <h1>REGISTRO</h1>
+    <h1>Inicie sesión</h1>
 
-    <form action="{% url 'guardaregistro' %}" method="post">
+    <form method="POST" action="{% url 'iniciosesion' %}">
         {% csrf_token %}
         <label for="usuario">Usuario:</label>
-        <input type="text" name="usuario" id="usuario" required>
-
-        <label for="email">Correo electrónico:</label>
-        <input type="email" name="correo" id="email" required>
-
+        <input type="text" name="usuario" required><br>
+    
         <label for="contrasena">Contraseña:</label>
-        <input type="password" name="contrasena" id="contrasena" required>
-
-        <button type="submit" class="btn">REGISTRARSE</button>
+        <input type="password" name="contrasena" required><br>
+    
+        <button class="btn" type="submit">Entrar</button>
     </form>
 </div>
-
-
+    {% if messages%}
+        {% for mensaje in messages%}
+        <script>Swal.fire({
+          title: "ERROR",
+          text: "{{mensaje}}",
+          icon: "warning"
+          });</script>          
+        {% endfor%}
+    {%endif%}
 </body>
 </html>
+
+
+
+
+
+
