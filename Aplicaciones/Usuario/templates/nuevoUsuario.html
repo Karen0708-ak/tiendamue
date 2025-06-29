@@ -5,7 +5,15 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>REGISTRO</title>
-    
+    {% if messages%}
+        {% for mensaje in messages%}
+        <script>Swal.fire({
+          title: "CONFIRMACIÓN",
+          text: "{{mensaje}}",
+          icon: "success"
+          });</script>          
+        {% endfor%}
+    {%endif%}
     <style>
         body {
             font-family: Arial, sans-serif;
