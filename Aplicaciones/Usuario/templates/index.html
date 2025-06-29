@@ -2,68 +2,141 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>INICIAR SESION</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Plataforma</title>
     <style>
+        :root {
+            --primary-color: #ff264a;
+            --primary-hover: #e02040;
+            --secondary-color: #202B38;
+            --light-color: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #202B38;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--secondary-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            color: #333;
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 10% 20%, rgba(32, 43, 56, 0.9) 0%, rgba(20, 30, 40, 1) 90%);
         }
 
         .container {
             text-align: center;
-            background-color: white;
-            padding: 160px;
-            border-radius: 80px;
+            background-color: var(--light-color);
+            padding: 4rem 5rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow);
+            width: 90%;
+            max-width: 650px;
+            transition: var(--transition);
+            position: relative;
             overflow: hidden;
+        }
 
-            box-shadow: 0 0 15px rgba(123, 9, 11, 0.2);
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), #ff6b81);
         }
 
         .logo {
-            width: 550px;
-            margin-bottom: 20px;
+            width: 100%;
+            max-width: 350px;
+            margin-bottom: 2rem;
+            transition: var(--transition);
         }
 
         h1 {
-            font-size: 65px;
-            margin-bottom: 45px;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
 
         .btn {
             display: block;
-            width: 550px;
-            margin: 30px auto;
-            padding: 20px;
-            font-size: 16px;
-            background-color: #ff264a;
-            color: white;
+            width: 100%;
+            max-width: 350px;
+            margin: 1.2rem auto;
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            background-color: var(--primary-color);
+            color: var(--light-color);
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(255, 38, 74, 0.3);
         }
 
         .btn:hover {
-            background-color: #0056b3;
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 38, 74, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(32, 43, 56, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: #2a3848;
+            box-shadow: 0 6px 15px rgba(32, 43, 56, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 3rem 2rem;
+                border-radius: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .btn {
+                padding: 1rem;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <img src="/static/img/logo.png" alt="Logo" class="logo">
-
-    <h1>BIENVENIDO</h1>
-
-    <a href="{% url 'nuevoUsuario'%}" class="btn">REGÍSTRATE</a>
-    <a href="" class="btn">INICIAR SESIÓN</a>
-    <a href="{% url 'inicios'%}" class="btn btn-primary">Plantilla</a>
-</div>
-
+    <div class="container">
+        <img src="/static/img/logo.png" alt="Logo de la plataforma" class="logo">
+        
+        <h1>Bienvenido</h1>
+        
+        <a href="{% url 'nuevoUsuario' %}" class="btn">Regístrate</a>
+        <a href="#" class="btn">Iniciar Sesión</a>
+        <a href="{% url 'inicios' %}" class="btn btn-primary">Ver Plantilla</a>
+    </div>
 </body>
 </html>

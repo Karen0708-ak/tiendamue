@@ -1,93 +1,109 @@
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #202B38, #1a2330);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>REGISTRO</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #202B38;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-  .container {
-    background: #fff;
-    padding: 60px 50px;
-    border-radius: 25px;
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
-    width: 400px;
-    max-width: 90vw;
-    text-align: center;
-    color: #202B38;
-  }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 50px;
+            border-radius: 80px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(123, 9, 11, 0.2);
+            width: 550px;
+        }
 
-  .container h2 {
-    font-weight: 700;
-    font-size: 2.4rem;
-    margin-bottom: 30px;
-    letter-spacing: 1.2px;
-  }
+        .logo {
+            width: 400px;
+            margin-bottom: 20px;
+        }
 
-  form label {
-    display: block;
-    text-align: left;
-    font-weight: 600;
-    margin-bottom: 8px;
-    font-size: 1rem;
-    color: #333;
-  }
+        h1 {
+            font-size: 40px;
+            margin-bottom: 45px;
+        }
 
-  form input[type="text"],
-  form input[type="email"],
-  form input[type="password"] {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 20px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-  }
+        form {
+            width: 100%;
+        }
 
-  form input[type="text"]:focus,
-  form input[type="email"]:focus,
-  form input[type="password"]:focus {
-    outline: none;
-    border-color: #ff264a;
-    box-shadow: 0 0 8px rgba(255, 38, 74, 0.5);
-  }
+        form label {
+            display: block;
+            text-align: left;
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
 
-  form button {
-    width: 100%;
-    padding: 14px 0;
-    background-color: #ff264a;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 700;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    letter-spacing: 1px;
-  }
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="password"] {
+            width: 80%;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 20px;
+        }
 
-  form button:hover {
-    background-color: #e0213f;
-  }
-</style>
+        form input[type="text"]:focus,
+        form input[type="email"]:focus,
+        form input[type="password"]:focus {
+            outline: none;
+            border-color: #ff264a;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            margin: 30px auto;
+            padding: 20px;
+            font-size: 24px;
+            background-color: #ff264a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
 
 <div class="container">
-  <h2>Registro</h2>
-  <form action="{% url 'guardaregistro' %}" method="post">
-    {% csrf_token %}
-    <label for="usuario">Usuario:</label>
-    <input type="text" name="usuario" id="usuario" required>
+    <img src="/static/img/logo.png" alt="Logo" class="logo">
 
-    <label for="email">Correo electrónico:</label>
-    <input type="email" name="correo" id="email" required>
+    <h1>REGISTRO</h1>
 
-    <label for="contrasena">Contraseña:</label>
-    <input type="password" name="contrasena" id="contrasena" required>
+    <form action="{% url 'guardaregistro' %}" method="post">
+        {% csrf_token %}
+        <label for="usuario">Usuario:</label>
+        <input type="text" name="usuario" id="usuario" required>
 
-    <button type="submit">Registrarse</button>
-  </form>
+        <label for="email">Correo electrónico:</label>
+        <input type="email" name="correo" id="email" required>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" name="contrasena" id="contrasena" required>
+
+        <button type="submit" class="btn">REGISTRARSE</button>
+    </form>
 </div>
+
+</body>
+</html>
