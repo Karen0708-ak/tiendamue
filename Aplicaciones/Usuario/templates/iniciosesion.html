@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-      <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8">
-    <title>Inicio de sesion</title>
+    <title>Inicio de sesión</title>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -86,39 +87,35 @@
     </style>
 </head>
 <body>
+    <div class="container">
+        <a href="{% url 'index' %}">
+            <img src="/static/img/logo.png" alt="Logo" class="logo">
+        </a>
 
-<div class="container">
-    <a href="{% url 'index' %}">
-        <img src="/static/img/logo.png" alt="Logo" class="logo">
-    </a>
+        <h1>Inicie sesión</h1>
 
-    <h1>Inicie sesión</h1>
+        <form method="POST" action="{% url 'iniciosesion' %}">
+            {% csrf_token %}
+            <label for="usuario">Usuario:</label>
+            <input type="text" name="usuario" required><br>
+        
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" name="contrasena" required><br>
+        
+            <button class="btn" type="submit">Entrar</button>
+        </form>
+    </div>
 
-    <form method="POST" action="{% url 'iniciosesion' %}">
-        {% csrf_token %}
-        <label for="usuario">Usuario:</label>
-        <input type="text" name="usuario" required><br>
-    
-        <label for="contrasena">Contraseña:</label>
-        <input type="password" name="contrasena" required><br>
-    
-        <button class="btn" type="submit">Entrar</button>
-    </form>
-</div>
-    {% if messages%}
-        {% for mensaje in messages%}
-        <script>Swal.fire({
-          title: "ERROR",
-          text: "{{mensaje}}",
-          icon: "warning"
-          });</script>          
-        {% endfor%}
-    {%endif%}
+    {% if messages %}
+        {% for mensaje in messages %}
+        <script>
+            Swal.fire({
+                title: "{{ mensaje.tags|title }}",
+                text: "{{ mensaje }}",
+                icon: "{{ mensaje.tags }}" === "error" ? "error" : "success"
+            });
+        </script>
+        {% endfor %}
+    {% endif %}
 </body>
 </html>
-
-
-
-
-
-
