@@ -1,8 +1,28 @@
 {% extends 'plantilla.html' %}
 {% load static %}
+
 {% block body %}
-<main>
-    <h1>TITULO<h1>
+<main class="container mt-4">
+
+  <!-- TÍTULO + BOTÓN DE NOTIFICACIÓN EN LÍNEA -->
+  <div class="d-flex align-items-center mb-3" style="gap: 10px;">
+    <h2 class="mb-0">Publicaciones</h2>
+    
+    <!-- Botón de notificación -->
+    <button class="btn btn-outline-primary position-relative p-2" style="border-radius: 50%;">
+      <i class="bi bi-bell"></i>
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        3
+        <span class="visually-hidden">notificaciones no leídas</span>
+      </span>
+    </button>
+  </div>
+
+  <!-- CUADRO DE PUBLICACIONES -->
+  <div style="border: 1px solid black; padding: 250px; background-color: white;">
+    <!-- Contenido de publicaciones aquí -->
+    <p>Este es el contenido de publicaciones.</p>
+  </div>
 
 </main>
 {% endblock %}
