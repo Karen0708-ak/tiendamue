@@ -3,107 +3,194 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio de sesión</title>
-    <!-- SweetAlert2 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Plataforma</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        :root {
+            --primary-color: #ff264a;
+            --primary-hover: #e02040;
+            --secondary-color: #202B38;
+            --light-color: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #202B38;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--secondary-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            color: #333;
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 10% 20%, rgba(32, 43, 56, 0.9) 0%, rgba(20, 30, 40, 1) 90%);
         }
 
         .container {
             text-align: center;
-            background-color: white;
-            padding: 50px;
-            border-radius: 80px;
+            background-color: var(--light-color);
+            padding: 3rem 4rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow);
+            width: 30%;
+            max-width: 600px;
+            min-width: 400px;
+            transition: var(--transition);
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 0 15px rgba(123, 9, 11, 0.2);
-            width: 550px;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), #ff6b81);
         }
 
         .logo {
-            width: 400px;
-            margin-bottom: 20px;
+            width: 100%;
+            max-width: 350px;
+            margin-bottom: 2rem;
+            transition: var(--transition);
         }
 
         h1 {
-            font-size: 40px;
-            margin-bottom: 45px;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
 
         form {
             width: 100%;
-        }
-
-        form label {
-            display: block;
             text-align: left;
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: #333;
         }
 
-        form input[type="text"],
-        form input[type="email"],
-        form input[type="password"] {
-            width: 80%;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 2px solid #ddd;
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 20px;
+            font-size: 1rem;
+            transition: var(--transition);
         }
 
-        form input[type="text"]:focus,
-        form input[type="email"]:focus,
-        form input[type="password"]:focus {
+        input:focus {
             outline: none;
-            border-color: #ff264a;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 38, 74, 0.2);
         }
 
         .btn {
             display: block;
             width: 100%;
-            margin: 30px auto;
-            padding: 20px;
-            font-size: 24px;
-            background-color: #ff264a;
-            color: white;
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            background-color: var(--primary-color);
+            color: var(--light-color);
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(255, 38, 74, 0.3);
+            margin-top: 2rem;
         }
 
         .btn:hover {
-            background-color: #0056b3;
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 38, 74, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .register-link {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                min-width: unset;
+                padding: 2rem;
+                border-radius: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .btn {
+                padding: 1rem;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="{% url 'index' %}">
-            <img src="/static/img/logo.png" alt="Logo" class="logo">
+            <img src="/static/img/logo2.png" alt="Logo" class="logo">
         </a>
 
-        <h1>Inicie sesión</h1>
+        <h1>Iniciar Sesión</h1>
 
         <form method="POST" action="{% url 'iniciosesion' %}">
             {% csrf_token %}
-            <label for="usuario">Usuario:</label>
-            <input type="text" name="usuario" required><br>
-        
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" name="contrasena" required><br>
-        
-            <button class="btn" type="submit">Entrar</button>
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" name="usuario" id="usuario" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" name="contrasena" id="contrasena" required>
+            </div>
+            
+            <button type="submit" class="btn">Entrar</button>
         </form>
+
+        <div class="register-link">
+            ¿No tienes cuenta? <a href="{% url 'nuevoUsuario' %}">Regístrate</a>
+        </div>
     </div>
 
     {% if messages %}
