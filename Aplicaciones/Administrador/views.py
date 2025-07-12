@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from .models import Administrador
+from django.shortcuts import render,redirect
+
+
 # Create your views here.
-def inicio(request):
-    inicio=Administrador.objects.all()
+def admin_panel(request):
+    if 'admin_id' not in request.session:
+        return redirect('iniciosesion')
     return render(request, 'admin.html')

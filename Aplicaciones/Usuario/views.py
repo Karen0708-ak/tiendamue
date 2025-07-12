@@ -3,6 +3,7 @@ from .models import Usuario
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
+from Aplicaciones.Administrador.models import Administrador
 
 def index(request):
     usuario = Usuario.objects.all()
@@ -45,24 +46,32 @@ def guardaregistro(request):
 
 def iniciosesion(request):
     if request.method == 'POST':
-        usuario_input = request.POST['usuario']
-        contrasena_input = request.POST['contrasena']
+   
+        input_usuario = request.POST.get('usuario')
+        input_contrasena = request.POST.get('contrasena')
 
+        # administrador 
         try:
-            usuario = Usuario.objects.get(usuario=usuario_input)
+            admin = Administrador.objects.get(user=input_usuario)
+            if check_password(input_contrasena, admin.passwo):
+                request.session['admin_id'] = admin.id
+                messages.success(request, '¡Bienvenido!')
+                return redirect('admin_panel')
+        except Administrador.DoesNotExist:
+            pass
 
-            if check_password(contrasena_input, usuario.contrasena):
-     
+        #usuario
+        try:
+            usuario = Usuario.objects.get(usuario=input_usuario)
+            if check_password(input_contrasena, usuario.contrasena):
                 request.session['usuario_id'] = usuario.id
-                request.session['usuario_nombre'] = usuario.usuario
-                messages.success(request, f'¡Bienvenido {usuario.usuario}!')
-                return redirect('inicios')  
+                messages.success(request, '¡Bienvenido!')
+                return redirect('inicios')
             else:
                 messages.error(request, 'Contraseña incorrecta.')
-
         except Usuario.DoesNotExist:
             messages.error(request, 'El usuario no existe.')
-    
+
     return render(request, 'iniciosesion.html')
 def cerrarsesion(request):
     request.session.flush()  
