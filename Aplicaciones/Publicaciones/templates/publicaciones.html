@@ -1,0 +1,75 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block body %}
+<br>
+<h1 class="text-center">Mis Publicaciones de Propiedades</h1>
+<hr>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Imagen</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Ubicación</th>
+            <th>Estado</th>
+            <th>Fecha Publicación</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for propiedad in propiedades %}
+        <tr>
+            <td>{{ propiedad.titulo }}</td>
+            <td>
+                {% if propiedad.imagen %}
+                <img src="{{ propiedad.imagen.url }}" alt="{{ propiedad.titulo }}" style="max-width: 100px;">
+                {% else %}
+                Sin imagen
+                {% endif %}
+            </td>
+            <td>{{ propiedad.descripcion|truncatewords:10 }}</td>
+            <td>${{ propiedad.precio }}</td>
+            <td>({{ propiedad.latitud }}, {{ propiedad.longitud }})</td>
+            <td>{{ propiedad.estado }}</td>
+            <td>{{ propiedad.fecha_publicacion|date:"d/m/Y H:i" }}</td>
+            <td>
+                <a href="#">Editar <i class="fa fa-pen"></i></a>
+                <a style="color: red;" href="#" onclick="confirmarEliminacion('{{ propiedad.id_propiedad }}')">Eliminar <i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="text-center">
+    <a href="#" class="btn btn-primary">
+        Agregar Nueva Propiedad
+    </a>
+</div>
+<br>
+<br>
+
+<!-- Script de SweetAlert -->
+<script>
+    function confirmarEliminacion(id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¡Esta acción no se puede deshacer!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirige al endpoint de eliminación en Django
+                window.location.href = `/eliminar_propiedad/${id}`;
+            }
+        });
+    }
+</script>
+
+{% endblock %}
