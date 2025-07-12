@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'Aplicaciones.Usuario',
     'Aplicaciones.Propiedades',
     'Aplicaciones.Publicaciones',
+    'Aplicaciones.Administrador',
+
 ]
 
 MIDDLEWARE = [
