@@ -20,6 +20,7 @@ def guardaregistro(request):
         usuario = request.POST['usuario']
         correo = request.POST['correo']
         contrasena = request.POST['contrasena']
+        telefono = request.POST['telefono']
 
         # Validar existencia previa
         if Usuario.objects.filter(usuario=usuario).exists():
@@ -36,13 +37,13 @@ def guardaregistro(request):
         Usuario.objects.create(
             usuario=usuario,
             correo=correo,
-            contrasena=contrasena_encriptada
+            contrasena=contrasena_encriptada,
+            telefono=telefono,
         )
 
         messages.success(request, '¡Usuario registrado exitosamente!')
-        return redirect('index')
+        return redirect('iniciosesion')
     
-    return redirect('index')
 
 def iniciosesion(request):
     if request.method == 'POST':
