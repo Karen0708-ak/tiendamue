@@ -20,6 +20,9 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 from django.urls import reverse_lazy
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('', RedirectView.as_view(url=reverse_lazy('index'), permanent=False)), 
     path('admin/', admin.site.urls),
@@ -27,3 +30,4 @@ urlpatterns = [
     path('Publicaciones/', include('Aplicaciones.Publicaciones.urls')),
     path('Administrador/', include('Aplicaciones.Administrador.urls')),
 ]
+if settings.DEBUG:urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

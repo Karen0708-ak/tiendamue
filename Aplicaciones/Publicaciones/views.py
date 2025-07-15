@@ -41,7 +41,7 @@ def guardarPropiedad(request):
         return redirect('iniciopu')
 
 def eliminarPropiedad(request, id):
-    propiedad = get_object_or_404(Propiedad, id=id)
+    propiedad = get_object_or_404(Propiedad, id_propiedad=id)
     propiedad.delete()
     messages.success(request, "Propiedad eliminada exitosamente")
     return redirect('iniciopu')

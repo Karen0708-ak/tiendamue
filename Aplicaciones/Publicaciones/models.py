@@ -4,7 +4,7 @@ from Aplicaciones.Usuario.models import Usuario
 class Propiedad(models.Model):
     id_propiedad = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=200)
-    imagen = models.ImageField(upload_to='propiedades/')
+    imagen = models.FileField(upload_to='propiedades/')
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits=12, decimal_places=2)
     ubicacion=models.CharField(max_length=200,null=True,blank=True)

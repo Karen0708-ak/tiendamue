@@ -22,13 +22,13 @@
             <input class="form-control mb-3" type="number" step="0.01" name="precio" id="precio" required>
 
             <label for="">Ubicación</label>
-            <input class="form-control mb-3" type="text" name="ubicacion" id="ubicacion" readonly required>
+            <input class="form-control mb-3" type="text" name="ubicacion" id="ubicacion" required>
 
             <label for="latitud">Latitud</label>
-            <input class="form-control mb-3" type="text" name="latitud" id="latitud" readonly required>
+            <input class="form-control mb-3" type="text" placeholder="Seleccione en el mapa" name="latitud" id="latitud" readonly required>
 
             <label for="longitud">Longitud</label>
-            <input class="form-control mb-3" type="text" name="longitud" id="longitud" readonly required>
+            <input class="form-control mb-3" type="text" placeholder="Seleccione en el mapa" name="longitud" id="longitud" readonly required>
 
             <div id="map" style="height: 300px; width: 100%;" class="mb-4"></div>
 
@@ -63,7 +63,8 @@
         // Mostrar lat/lon iniciales
         document.getElementById("latitud").value = marker.getPosition().lat();
         document.getElementById("longitud").value = marker.getPosition().lng();
-        geocodePosition(marker.getPosition());
+
+        //geocodePosition(marker.getPosition());
 
         map.addListener("click", function (event) {
             marker.setPosition(event.latLng);
@@ -80,15 +81,6 @@
         });
     }
 
-    function geocodePosition(position) {
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ location: position }, function (results, status) {
-            if (status === "OK" && results[0]) {
-                document.getElementById("ubicacion").value = results[0].formatted_address;
-            } else {
-                document.getElementById("ubicacion").value = "Ubicación no encontrada";
-            }
-        });
-    }
+    
 </script>
 {% endblock %}
