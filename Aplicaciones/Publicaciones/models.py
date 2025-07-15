@@ -6,7 +6,8 @@ class Propiedad(models.Model):
     titulo = models.CharField(max_length=200)
     imagen = models.ImageField(upload_to='propiedades/')
     descripcion = models.TextField()
-    precio = models.DecimalField(max_digits=12, decimal_places=2)  # Mantén solo este
+    precio = models.DecimalField(max_digits=12, decimal_places=2)
+    ubicacion=models.CharField(max_length=200,null=True,blank=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     latitud = models.DecimalField(max_digits=9, decimal_places=7)
     longitud = models.DecimalField(max_digits=10, decimal_places=7)

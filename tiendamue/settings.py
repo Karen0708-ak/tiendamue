@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Aplicaciones.Usuario',
-    'Aplicaciones.Propiedades',
     'Aplicaciones.Publicaciones',
     'Aplicaciones.Administrador',
 
@@ -126,3 +125,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'tiendamue/static'),)
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = (os.path.join(BASE_DIR,'tiendamue/media'))
