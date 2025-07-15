@@ -38,7 +38,7 @@
             <td>{{ propiedad.estado }}</td>
             <td>{{ propiedad.fecha_publicacion|date:"d/m/Y H:i" }}</td>
             <td>
-                <a href="#" class="btn btn-outline-warning">
+                <a href="editarPropiedad/{{propiedad.id_propiedad}}" class="btn btn-outline-warning">
                     <i class="fa fa-pen"></i></a>
                 <a style="color: red;" href="#" onclick="confirmarEliminacion('{{ propiedad.id_propiedad }}')" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
             </td>

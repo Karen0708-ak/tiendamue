@@ -1,0 +1,83 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+{% block body %}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 p-4 rounded">
+        <h1 class="mb-4">Editar Publicación</h1>
+
+        <form action="{% url 'procesarEdicionPropiedad' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ propiedad.id_propiedad }}">
+
+            <label for="titulo">Título</label>
+            <input class="form-control mb-3" type="text" name="titulo" id="titulo" value="{{ propiedad.titulo }}" required>
+
+            <label for="imagen">Imagen</label>
+            {% if propiedad.imagen %}
+                <p>Imagen actual:</p>
+                <img src="{{ propiedad.imagen.url }}" alt="Imagen actual" height="80px"><br><br>
+            {% endif %}
+            <input class="form-control mb-3" type="file" name="imagen" id="imagen" accept="image/*">
+
+            <label for="descripcion">Descripción</label>
+            <textarea class="form-control mb-3" name="descripcion" id="descripcion" rows="3" required>{{ propiedad.descripcion }}</textarea>
+
+            <label for="">Precio</label>
+            <input class="form-control mb-3" type="text" step="0.01" name="precio" id="precio" value="{{ propiedad.precio }}" required>
+
+            <label for="ubicacion">Ubicación</label>
+            <input class="form-control mb-3" type="text" name="ubicacion" id="ubicacion" value="{{ propiedad.ubicacion }}" required>
+
+            <label for="latitud">Latitud</label>
+            <input class="form-control mb-3" type="text" name="latitud" id="latitud" value="{{ propiedad.latitud }}" readonly required>
+
+            <label for="longitud">Longitud</label>
+            <input class="form-control mb-3" type="text" name="longitud" id="longitud" value="{{ propiedad.longitud }}" readonly required>
+
+            <div id="map" style="height: 300px; width: 100%;" class="mb-4"></div>
+
+            <label for="estado">Estado</label>
+            <input class="form-control mb-3" type="text" name="estado" id="estado" value="{{ propiedad.estado }}" required>
+
+            <button class="btn btn-success" type="submit">Actualizar</button>
+            <a class="btn btn-danger" href="{% url 'iniciopu' %}">Cancelar</a>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap&libraries=places" async defer></script>
+
+<script>
+    function initMap() {
+        const lat = parseFloat(document.getElementById("latitud").value) || -1.8312;
+        const lng = parseFloat(document.getElementById("longitud").value) || -78.1834;
+
+        const defaultLatLng = { lat: lat, lng: lng };
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+            center: defaultLatLng,
+            zoom: 10,
+        });
+
+        const marker = new google.maps.Marker({
+            position: defaultLatLng,
+            map: map,
+            draggable: true
+        });
+
+        map.addListener("click", function (event) {
+            marker.setPosition(event.latLng);
+            document.getElementById("latitud").value = event.latLng.lat();
+            document.getElementById("longitud").value = event.latLng.lng();
+        });
+
+        marker.addListener("dragend", function () {
+            const pos = marker.getPosition();
+            document.getElementById("latitud").value = pos.lat();
+            document.getElementById("longitud").value = pos.lng();
+        });
+    }
+</script>
+{% endblock %}

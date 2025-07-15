@@ -47,7 +47,7 @@ def eliminarPropiedad(request, id):
     return redirect('iniciopu')
 
 def editarPropiedad(request, id):
-    propiedad = get_object_or_404(Propiedad, id=id)
+    propiedad = get_object_or_404(Propiedad, id_propiedad=id)
     return render(request, "editarPropiedad.html", {'propiedad': propiedad})
 
 
@@ -58,12 +58,12 @@ def procesarEdicionPropiedad(request):
         descripcion = request.POST["descripcion"]
         precio = request.POST["precio"].replace(',', '.')
         ubicacion=request.POST["ubicacion"]
-        latitud = request.POST["latitud"]
-        longitud = request.POST["longitud"]
+        latitud = request.POST["latitud"].replace(',', '.').replace('“', '').replace('”', '').strip()
+        longitud = request.POST["longitud"].replace(',', '.').replace('“', '').replace('”', '').strip()
         estado = request.POST["estado"]
         imagen_nueva = request.FILES.get("imagen")
 
-        propiedad = get_object_or_404(Propiedad, id=id)
+        propiedad = get_object_or_404(Propiedad, id_propiedad=id)
         propiedad.titulo = titulo
         propiedad.descripcion = descripcion
         propiedad.precio = precio
