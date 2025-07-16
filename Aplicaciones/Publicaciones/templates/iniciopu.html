@@ -16,7 +16,8 @@
             <th>Precio</th>
             <th>Ubicación</th>
             <th>Estado</th>
-            <th>Fecha Publicación</th>
+            <th>Fecha de Publicación</th>
+            <th>Fecha de Actualización</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -37,6 +38,7 @@
             <td>({{ propiedad.latitud }}, {{ propiedad.longitud }})</td>
             <td>{{ propiedad.estado }}</td>
             <td>{{ propiedad.fecha_publicacion|date:"d/m/Y H:i" }}</td>
+            <td>{{ propiedad.fecha_actualizacion|date:"d/m/Y H:i" }}</td>
             <td>
                 <a href="editarPropiedad/{{propiedad.id_propiedad}}" class="btn btn-outline-warning">
                     <i class="fa fa-pen"></i></a>

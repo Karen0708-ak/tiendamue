@@ -68,6 +68,7 @@ def iniciosesion(request):
             usuario = Usuario.objects.get(usuario=input_usuario)
             if check_password(input_contrasena, usuario.contrasena):
                 request.session['usuario_id'] = usuario.id
+                request.session['usuario_nombre'] = usuario.usuario
                 messages.success(request, '¡Bienvenido!')
                 return redirect('inicios')
             else:

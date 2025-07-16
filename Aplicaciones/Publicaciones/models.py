@@ -13,3 +13,4 @@ class Propiedad(models.Model):
     longitud = models.DecimalField(max_digits=10, decimal_places=7)
     estado = models.CharField(max_length=50)
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True,null=True,blank=True)
