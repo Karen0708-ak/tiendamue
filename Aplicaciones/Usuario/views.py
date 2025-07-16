@@ -4,13 +4,15 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from Aplicaciones.Administrador.models import Administrador
+from Aplicaciones.Publicaciones.models import Propiedad
 
 def index(request):
     usuario = Usuario.objects.all()
     return render(request, 'index.html')
 def inicio(request):
-    inicio=Usuario.objects.all()
-    return render(request, 'inicios.html')
+    propiedades = Propiedad.objects.all().order_by('-fecha_publicacion')
+    return render(request, 'inicios.html', {'propiedades': propiedades})
+
 
 def nuevoUsuario(request):
     return render(request, "nuevoUsuario.html")
@@ -78,3 +80,9 @@ def cerrarsesion(request):
     request.session.flush()  
     messages.success(request, 'Sesión cerrada correctamente.')
     return redirect('iniciosesion')
+
+
+
+
+
+

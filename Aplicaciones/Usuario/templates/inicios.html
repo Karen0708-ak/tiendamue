@@ -4,11 +4,9 @@
 {% block body %}
 <main class="container mt-4">
 
-  <!-- TÍTULO CENTRADO + BOTÓN DE NOTIFICACIÓN -->
   <div class="d-flex justify-content-center align-items-center mb-3" style="gap: 10px;">
     <h2 class="text-center">Publicaciones</h2>
-    
-    <!-- Botón de notificación -->
+
     <button class="btn btn-outline-primary position-relative p-2" style="border-radius: 50%;">
       <i class="bi bi-bell"></i>
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -18,9 +16,60 @@
     </button>
   </div>
 
-  <!-- CUADRO DE PUBLICACIONES CON ANCHO MODIFICABLE -->
-  <div style="border: 2px solid black; padding: 515px; background-color: white; width: 0%; margin: 0%;">    <!-- Contenido de publicaciones aquí -->
-    <p>Este es el contenido de publicaciones.</p>
+ 
+  <div class="bg-white p-4 rounded shadow">
+    <div id="carouselPropiedades" class="carousel carousel-dark slide" data-bs-ride="carousel">
+      
+
+      <div class="carousel-indicators">
+        {% for propiedad in propiedades %}
+          <button type="button" data-bs-target="#carouselPropiedades" data-bs-slide-to="{{ forloop.counter0 }}" 
+            class="{% if forloop.first %}active{% endif %}" 
+            aria-current="{% if forloop.first %}true{% endif %}" 
+            aria-label="Slide {{ forloop.counter }}">
+          </button>
+        {% endfor %}
+      </div>
+
+      <div class="carousel-inner">
+        {% for propiedad in propiedades %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="d-flex justify-content-center">
+              <div class="card text-center" style="width: 24rem;">
+                <div class="card-header">
+                  {{ propiedad.estado }}
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ propiedad.titulo }}</h5>
+                  {% if propiedad.imagen %}
+                    <img src="{{ propiedad.imagen.url }}" class="img-fluid mb-3" alt="Imagen de {{ propiedad.titulo }}">
+                  {% else %}
+                    <p class="text-muted">Sin imagen</p>
+                  {% endif %}
+                  <p class="card-text">{{ propiedad.descripcion|truncatewords:20 }}</p>
+                  <p><strong>Ubicación:</strong> {{ propiedad.ubicacion }}</p>
+                  <p><strong>Precio:</strong> ${{ propiedad.precio }}</p>
+                  <a href="#" class="btn btn-primary">Ver más</a>
+                </div>
+                <div class="card-footer text-body-secondary">
+                  Publicado el {{ propiedad.fecha_publicacion|date:"d M Y" }}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselPropiedades" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselPropiedades" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
   </div>
 
 </main>
