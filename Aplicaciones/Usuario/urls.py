@@ -8,6 +8,8 @@ urlpatterns = [
     path('guardaregistro', views.guardaregistro,name='guardaregistro'),
     path('iniciosesion', views.iniciosesion,name='iniciosesion'),
     path('cerrarsesion', views.cerrarsesion,name='cerrarsesion'),
+    path('publicacion/<id_propiedad>', views.detalle_propiedad,name='publicacion'),
+
 
 
 ]

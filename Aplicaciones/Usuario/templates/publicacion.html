@@ -1,0 +1,61 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block body %}
+<main class="container mt-4">
+
+  <h2 class="mb-4">{{ propiedad.titulo }}</h2>
+
+  <div class="card mb-4">
+    {% if propiedad.imagen %}
+      <img src="{{ propiedad.imagen.url }}" class="card-img-top" alt="Imagen de {{ propiedad.titulo }}">
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">Estado: {{ propiedad.estado }}</h5>
+      <p class="card-text">{{ propiedad.descripcion }}</p>
+      <p><strong>Ubicación:</strong> {{ propiedad.ubicacion }}</p>
+      <p><strong>Precio:</strong> ${{ propiedad.precio }}</p>
+      <p><strong>Fecha de publicación:</strong> {{ propiedad.fecha_publicacion|date:"d M Y" }}</p>
+      <p><strong>Latitud:</strong> {{ propiedad.latitud }}</p>
+      <p><strong>Longitud:</strong> {{ propiedad.longitud }}</p>
+    </div>
+  </div>
+
+
+  <div id="map" style="height: 400px; width: 100%;" class="mb-4"></div>
+
+  <a href="{% url 'inicios' %}" class="btn btn-secondary mt-3">Volver</a>
+  <a href="#" class="btn btn-secondary mt-3">Me interesa</a>
+
+</main>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap&libraries=places" async defer></script>
+
+<script>
+  function initMap() {
+    const posicion = { 
+      lat: parseFloat("{{ propiedad.latitud }}"), 
+      lng: parseFloat("{{ propiedad.longitud }}")
+    };
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+      center: posicion,
+      zoom: 10,
+      draggable: true,     
+      zoomControl: true,        
+      scrollwheel: true,         
+      disableDoubleClickZoom: false,  
+      gestureHandling: "greedy",
+      mapTypeId: 'hybrid',
+    });
+
+    new google.maps.Marker({
+      position: posicion,
+      map: map,
+      draggable: false,
+    });
+  }
+</script>
+
+{% endblock %}

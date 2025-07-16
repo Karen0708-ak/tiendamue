@@ -81,6 +81,11 @@ def cerrarsesion(request):
     messages.success(request, 'Sesión cerrada correctamente.')
     return redirect('iniciosesion')
 
+######################################3
+
+def detalle_propiedad(request, id_propiedad):
+    propiedad = get_object_or_404(Propiedad, pk=id_propiedad)
+    return render(request, 'publicacion.html', {'propiedad': propiedad})
 
 
 
