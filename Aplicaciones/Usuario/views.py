@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from Aplicaciones.Administrador.models import Administrador
 from Aplicaciones.Publicaciones.models import Propiedad
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     usuario = Usuario.objects.all()
@@ -82,7 +84,27 @@ def cerrarsesion(request):
     messages.success(request, 'Sesión cerrada correctamente.')
     return redirect('iniciosesion')
 
-######################################3
+def perfil_usuario(request):
+    if 'usuario_id' not in request.session:
+        return JsonResponse({'error': 'Usuario no autenticado'}, status=401)
+
+    usuario = Usuario.objects.get(id=request.session['usuario_id'])
+
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        usuario.usuario = request.POST.get('usuario')
+        usuario.correo = request.POST.get('correo')
+        usuario.telefono = request.POST.get('telefono')
+        nueva_contrasena = request.POST.get('contrasena')
+
+        if nueva_contrasena:
+            usuario.contrasena = make_password(nueva_contrasena)
+
+        usuario.save()
+        return JsonResponse({'success': True, 'message': 'Datos actualizados correctamente'})
+
+    return render(request, 'perfil.html', {'usuario': usuario})
+
+######################################
 
 def detalle_propiedad(request, id_propiedad):
     propiedad = get_object_or_404(Propiedad, pk=id_propiedad)
