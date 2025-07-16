@@ -16,8 +16,9 @@
       <p><strong>Ubicación:</strong> {{ propiedad.ubicacion }}</p>
       <p><strong>Precio:</strong> ${{ propiedad.precio }}</p>
       <p><strong>Fecha de publicación:</strong> {{ propiedad.fecha_publicacion|date:"d M Y" }}</p>
-      <p><strong>Latitud:</strong> {{ propiedad.latitud }}</p>
-      <p><strong>Longitud:</strong> {{ propiedad.longitud }}</p>
+      <p><strong>Publicado por :</strong> {{ usuario.usuario }}</p>
+      <p><strong>Correo:</strong> {{ usuario.correo }}</p>
+      <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
     </div>
   </div>
 
