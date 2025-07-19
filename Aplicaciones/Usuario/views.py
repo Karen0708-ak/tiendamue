@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import check_password
 from Aplicaciones.Administrador.models import Administrador
 from Aplicaciones.Publicaciones.models import Propiedad
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from Aplicaciones.Notificacion.models import Notificacion
 
 def index(request):
     usuario = Usuario.objects.all()
@@ -14,7 +14,11 @@ def index(request):
 def inicio(request):
     propiedades = Propiedad.objects.all().order_by('-fecha_publicacion')
     usuario_id = request.session.get('usuario_id')
-    return render(request, 'inicios.html', {'propiedades': propiedades,'usuario_id': usuario_id})
+    
+    total_notificaciones = 0
+    if usuario_id:
+        total_notificaciones = Notificacion.objects.filter(usuario_id=usuario_id, leido=False).count()
+    return render(request, 'inicios.html', {'propiedades': propiedades,'usuario_id': usuario_id,'total_notificaciones': total_notificaciones})
 
 
 def nuevoUsuario(request):
@@ -114,8 +118,3 @@ def detalle_propiedad(request, id_propiedad):
         'propiedad': propiedad,
         'usuario': usuario
     })
-
-
-
-
-

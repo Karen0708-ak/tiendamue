@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'Aplicaciones.Administrador',
     'Aplicaciones.Interez',
     'Aplicaciones.Comentario',
+    'Aplicaciones.Notificacion',
+    'Aplicaciones.Interesados',
 
 ]
 

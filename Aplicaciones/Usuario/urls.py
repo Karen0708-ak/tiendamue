@@ -12,5 +12,4 @@ urlpatterns = [
     path('perfil', views.perfil_usuario, name='perfil_usuario'),
 
 
-
 ]

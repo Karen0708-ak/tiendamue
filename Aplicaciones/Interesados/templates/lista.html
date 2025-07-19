@@ -1,0 +1,28 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block body %}
+<main>
+    <h2>Usuarios interesados en mis publicaciones</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Usuario interesado</th>
+                <th>Publicación</th>
+                <th>Fecha interés</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for interes in intereses %}
+                <tr>
+                    <td>{{ interes.usuario.usuario }}</td>
+                    <td>{{ interes.propiedad.titulo }}</td>
+                    <td>{{ interes.fecha_interes }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="3">No hay usuarios interesados en tus publicaciones aún.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}

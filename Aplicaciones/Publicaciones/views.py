@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from Aplicaciones.Usuario.models import Usuario
 from .models import Propiedad
-
+from Aplicaciones.Interez.models import Interez
+from Aplicaciones.Notificacion.models import Notificacion 
 def inicio(request):
     usuario_actual = Usuario.objects.get(id=request.session['usuario_id']) 
     listado_propiedades = Propiedad.objects.filter(usuario=usuario_actual)
@@ -42,6 +43,12 @@ def guardarPropiedad(request):
 
 def eliminarPropiedad(request, id):
     propiedad = get_object_or_404(Propiedad, id_propiedad=id)
+    interesados = Interez.objects.filter(propiedad=propiedad)
+    for interesado in interesados:
+        Notificacion.objects.create(
+            usuario=interesado.usuario,
+            mensaje=f"La publicación '{propiedad.titulo}' ha sido eliminada.")
+    Interez.objects.filter(propiedad=propiedad).delete()
     propiedad.delete()
     messages.success(request, "Propiedad eliminada exitosamente")
     return redirect('iniciopu')
@@ -76,5 +83,11 @@ def procesarEdicionPropiedad(request):
             propiedad.imagen = imagen_nueva
 
         propiedad.save()
+        interesados = Interez.objects.filter(propiedad=propiedad)
+        for interesado in interesados:
+            Notificacion.objects.create(
+                usuario=interesado.usuario,
+                mensaje=f"La publicación '{propiedad.titulo}' ha sido actualizada."
+            )
         messages.success(request, "Propiedad actualizada exitosamente")
         return redirect('iniciopu')

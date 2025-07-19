@@ -1,0 +1,17 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+{% block body %}
+<main>
+    <h2>Mis Notificaciones</h2>
+    <ul class="list-group">
+    {% for notificacion in notificaciones %}
+        <li class="list-group-item {% if not notificacion.leido %}fw-bold{% endif %}">
+        {{ notificacion.mensaje }} <br>
+        <small class="text-muted">{{ notificacion.fecha|date:"d M Y H:i" }}</small>
+        </li>
+    {% empty %}
+        <li class="list-group-item">No tienes notificaciones.</li>
+    {% endfor %}
+    </ul>
+</main>
+{% endblock %}
