@@ -24,3 +24,15 @@ def registrar_interes(request, propiedad_id):
 def intereses(request):
     intereses = Interez.objects.select_related('usuario', 'propiedad').all()
     return render(request, 'intereses.html', {'intereses': intereses})
+
+
+def eliminarinterez(request, interes_id):
+    interes = get_object_or_404(Interez, id=interes_id)
+
+    if request.session.get('usuario_id') != interes.usuario.id:
+        messages.error(request, "No tienes permiso para eliminar este interés.")
+        return redirect('intereses')
+
+    interes.delete()
+    messages.success(request, "Interés eliminado correctamente.")
+    return redirect('intereses')

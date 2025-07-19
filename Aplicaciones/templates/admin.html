@@ -61,9 +61,23 @@
 
     <nav id="navmenu" class="navmenu">
       <ul><br>
-        <li><a href="" class="active"><i class="bi bi-house navicon"></i>INICIO</a></li>
-        <li><a href=""><i class="bi bi-person navicon"></i>USUARIOS</a></li>
-        <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i>HISTORIAL</a></li><br><br><br><br>
+        <li>
+          <a href="#" class="{% if request.resolver_match.url_name == 'inicio_admin' %}active{% endif %}">
+            <i class="bi bi-house navicon"></i> INICIO
+          </a>
+        </li>
+      
+        <li>
+          <a href="#" class="{% if request.resolver_match.url_name == 'usuarios_admin' %}active{% endif %}">
+            <i class="bi bi-person navicon"></i> USUARIOS
+          </a>
+        </li>
+      
+        <li>
+          <a href="#" class="{% if request.resolver_match.url_name == 'historial_admin' %}active{% endif %}">
+            <i class="bi bi-file-earmark-text navicon"></i> HISTORIAL
+          </a>
+        </li><br>
         <li><a href="#" onclick="confirmarCerrarSesion()"><i class="bi bi-box-arrow-right"></i>    Cerrar sesión</a></li>
       </ul>
   </header>

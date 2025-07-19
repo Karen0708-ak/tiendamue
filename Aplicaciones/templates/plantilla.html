@@ -142,10 +142,17 @@
 
     <nav id="navmenu" class="navmenu">
       <ul><br>
-        <li><a href="{% url 'inicios' %}" class="active"><i class="bi bi-house navicon"></i>INICIO</a></li>
-        <li><a href="{% url 'perfil_usuario' %}"><i class="bi bi-person navicon"></i> PERFIL</a></li>
-        <li><a href="{% url 'iniciopu' %}"><i class="bi bi-tools navicon"></i> MIS PUBLICACIONES</a></li>
-        <li><a href="{% url 'intereses' %}"><i class="bi bi-file-earmark-text navicon"></i> INTERESES</a></li>
+        <li><a href="{% url 'inicios' %}" class="{% if request.resolver_match.url_name == 'inicios' %}active{% endif %}">
+          <i class="bi bi-house navicon"></i> INICIO</a></li>
+      
+        <li><a href="{% url 'perfil_usuario' %}" class="{% if request.resolver_match.url_name == 'perfil_usuario' %}active{% endif %}">
+          <i class="bi bi-person navicon"></i> PERFIL</a></li>
+      
+        <li><a href="{% url 'iniciopu' %}" class="{% if request.resolver_match.url_name == 'iniciopu' %}active{% endif %}">
+          <i class="bi bi-tools navicon"></i> MIS PUBLICACIONES</a></li>
+      
+        <li><a href="{% url 'intereses' %}" class="{% if request.resolver_match.url_name == 'intereses' %}active{% endif %}">
+          <i class="bi bi-file-earmark-text navicon"></i> INTERESES</a></li>
         <li><a href="#" onclick="confirmarCerrarSesion()"><i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión</a></li>
       </ul>
   </header>

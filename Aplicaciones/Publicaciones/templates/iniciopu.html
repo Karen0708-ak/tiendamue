@@ -35,7 +35,7 @@
             </td>
             <td>{{ propiedad.descripcion|truncatewords:10 }}</td>
             <td>${{ propiedad.precio }}</td>
-            <td>({{ propiedad.latitud }}, {{ propiedad.longitud }})</td>
+            <td>{{ propiedad.ubicacion }}</td>
             <td>{{ propiedad.estado }}</td>
             <td>{{ propiedad.fecha_publicacion|date:"d/m/Y H:i" }}</td>
             <td>{{ propiedad.fecha_actualizacion|date:"d/m/Y H:i" }}</td>
@@ -57,7 +57,7 @@
 <br>
 <br>
 
-<!-- Script de SweetAlert -->
+
 <script>
     function confirmarEliminacion(id) {
         Swal.fire({
@@ -71,7 +71,6 @@
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Redirige al endpoint de eliminación en Django
                 window.location.href = `eliminarPropiedad/${id}`;
             }
         });

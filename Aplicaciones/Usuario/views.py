@@ -13,7 +13,8 @@ def index(request):
     return render(request, 'index.html')
 def inicio(request):
     propiedades = Propiedad.objects.all().order_by('-fecha_publicacion')
-    return render(request, 'inicios.html', {'propiedades': propiedades})
+    usuario_id = request.session.get('usuario_id')
+    return render(request, 'inicios.html', {'propiedades': propiedades,'usuario_id': usuario_id})
 
 
 def nuevoUsuario(request):

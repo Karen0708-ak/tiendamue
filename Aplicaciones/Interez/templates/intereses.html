@@ -22,7 +22,7 @@
             {% for interes in intereses %}
             <tr>
                 <td>{{ interes.id }}</td>
-                <td>{{ interes.usuario.usuario }}</td>
+                <td>{{ interes.propiedad.usuario.usuario  }}</td>
                 <td>{{ interes.propiedad.titulo }}</td>
                 <td>
                     {% if interes.propiedad.imagen %}
@@ -58,7 +58,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
         
-                    window.location.href = `eliminarInteres/${id}`;
+                    window.location.href = `eliminarinterez/${id}`;
                 }
             });
         }

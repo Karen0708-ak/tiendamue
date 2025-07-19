@@ -26,7 +26,12 @@
   <div id="map" style="height: 400px; width: 100%;" class="mb-4"></div>
 
   <a href="{% url 'inicios' %}" class="btn btn-secondary mt-3">Volver</a>
-  <a href="{% url 'registrar_interes' propiedad.id_propiedad %}" class="btn btn-secondary mt-3">Me interesa</a>
+  {% if usuario_id != propiedad.usuario.id %}
+    <a href="{% url 'registrar_interes' propiedad.id_propiedad %}" class="btn btn-primary">Me interesa</a>
+  {% else %}
+    <button class="btn btn-secondary" disabled>Es tu propiedad</button>
+  {% endif %}
+
 
 </main>
 
@@ -42,7 +47,7 @@
 
     const map = new google.maps.Map(document.getElementById("map"), {
       center: posicion,
-      zoom: 10,
+      zoom: 15,
       draggable: true,     
       zoomControl: true,        
       scrollwheel: true,         
