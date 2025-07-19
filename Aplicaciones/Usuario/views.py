@@ -27,7 +27,7 @@ def guardaregistro(request):
         contrasena = request.POST['contrasena']
         telefono = request.POST['telefono']
 
-        # Validar existencia previa
+
         if Usuario.objects.filter(usuario=usuario).exists():
             messages.error(request, 'El nombre de usuario ya está en uso.')
             return redirect('nuevoUsuario')
@@ -36,7 +36,7 @@ def guardaregistro(request):
             messages.error(request, 'El correo ya está registrado.')
             return redirect('nuevoUsuario')
 
-        # Encriptar y guardar
+
         contrasena_encriptada = make_password(contrasena)
 
         Usuario.objects.create(
@@ -115,7 +115,7 @@ def detalle_propiedad(request, id_propiedad):
         'usuario': usuario
     })
 
-################INTEREZ##############
+
 
 
 

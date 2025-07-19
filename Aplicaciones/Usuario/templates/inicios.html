@@ -56,8 +56,13 @@
                   {% else %}
                     <button class="btn btn-secondary" disabled>Es tu propiedad</button>
                   {% endif %}
-                
-
+                  <button type="button" class="btn btn-primary position-relative" data-bs-toggle="modal" data-bs-target="#comentariosModal{{ propiedad.id_propiedad }}">
+                    Comentarios
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {{ propiedad.comentario_set.count }}
+                      <span class="visually-hidden">comentarios</span>
+                    </span>
+                  </button>
                 </div>
                 <div class="card-footer text-body-secondary">
                   Publicado el {{ propiedad.fecha_publicacion|date:"d M Y" }}
@@ -67,6 +72,36 @@
           </div>
         {% endfor %}
       </div>
+      {% for propiedad in propiedades %}
+      <div class="modal fade" id="comentariosModal{{ propiedad.id_propiedad }}" tabindex="-1" aria-labelledby="comentariosModalLabel{{ propiedad.id_propiedad }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="comentariosModalLabel{{ propiedad.id_propiedad }}">Comentarios de "{{ propiedad.titulo }}"</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group mb-3">
+                {% for comentario in propiedad.comentario_set.all %}
+                  <li class="list-group-item">
+                      <strong>{{ comentario.usuario.usuario }}:</strong> {{ comentario.comentario }}
+                  </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">Aún no hay comentarios.</li>
+                {% endfor %}
+                </ul>
+                <form class="form-comentario" data-id="{{ propiedad.id_propiedad }}">
+                  {% csrf_token %}
+                  <div class="input-group">
+                    <input type="text" name="comentario" class="form-control" placeholder="Escribe tu comentario..." required>
+                    <button class="btn btn-success" type="submit">Comentar</button>
+                  </div>
+                </form>                
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
 
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselPropiedades" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -79,4 +114,41 @@
     </div>
   </div>
 </main>
+
+<script>
+  $(document).ready(function () {
+    $('.form-comentario').on('submit', function (e) {
+      e.preventDefault();
+
+      const form = $(this);
+      const propiedadId = form.data('id');
+      const comentario = form.find('input[name="comentario"]').val();
+      const url = `/Comentario/agregar_comentario/${propiedadId}/`; 
+
+      $.ajax({
+        url: url,
+        method: 'POST',
+        data: {
+          comentario: comentario,
+          csrfmiddlewaretoken: form.find('[name=csrfmiddlewaretoken]').val()
+        },
+        success: function (response) {
+          if (response.success) {
+     
+            const lista = form.closest('.modal-body').find('.list-group');
+            const nuevoComentario = `<li class="list-group-item"><strong>${response.usuario}:</strong> ${response.comentario}</li>`;
+            lista.append(nuevoComentario);
+
+
+            form.find('input[name="comentario"]').val('');
+          }
+        },
+        error: function () {
+          Swal.fire('Error', 'No se pudo enviar el comentario.', 'error');
+        }
+      });
+    });
+  });
+</script>
+
 {% endblock %}
