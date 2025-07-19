@@ -62,7 +62,7 @@ def iniciosesion(request):
             if check_password(input_contrasena, admin.passwo):
                 request.session['admin_id'] = admin.id
                 messages.success(request, '¡Bienvenido!')
-                return redirect('admin_panel')
+                return redirect('admiin')
         except Administrador.DoesNotExist:
             pass
 
