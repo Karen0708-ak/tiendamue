@@ -51,7 +51,7 @@
                   <p><strong>Correo:</strong> ${{ propiedad.usuario.correo }}</p>
                   <p><strong>Teléfono:</strong> ${{ propiedad.usuario.telefono }}</p>
                   <a href="{% url 'publicacion' propiedad.id_propiedad %}" class="btn btn-primary">Ver más</a>
-                  <a href="#" class="btn btn-primary">Me interesa</a>
+                  <a href="{% url 'registrar_interes' propiedad.id_propiedad %}" class="btn btn-primary">Me interesa</a>
                 </div>
                 <div class="card-footer text-body-secondary">
                   Publicado el {{ propiedad.fecha_publicacion|date:"d M Y" }}

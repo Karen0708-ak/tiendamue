@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Aplicaciones.Usuario',
     'Aplicaciones.Publicaciones',
     'Aplicaciones.Administrador',
+    'Aplicaciones.Interez',
 
 ]
 

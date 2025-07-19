@@ -1,0 +1,67 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block body %}
+<main>
+    <br>
+    <h1 class="text-center">Intereses Registrados</h1>
+    <hr>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Propiedad</th>
+                <th>Imagen</th>
+                <th>Fecha de Registro</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for interes in intereses %}
+            <tr>
+                <td>{{ interes.id }}</td>
+                <td>{{ interes.usuario.usuario }}</td>
+                <td>{{ interes.propiedad.titulo }}</td>
+                <td>
+                    {% if interes.propiedad.imagen %}
+                        <img src="{{ interes.propiedad.imagen.url }}" alt="" height="80px">
+                    {% else %}
+                        Ninguna
+                    {% endif %}
+                </td>
+                <td>{{ interes.fecha_interes|date:"d/m/Y H:i" }}</td>
+                <td>
+                    <a style="color: red;" href="#" onclick="confirmarEliminacion('{{ interes.id }}')" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <br>
+
+    <!-- Script de SweetAlert -->
+    <script>
+        function confirmarEliminacion(id) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¡Esta acción no se puede deshacer!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+        
+                    window.location.href = `eliminarInteres/${id}`;
+                }
+            });
+        }
+    </script>
+</main>
+{% endblock %}

@@ -29,5 +29,7 @@ urlpatterns = [
     path('Usuario/', include('Aplicaciones.Usuario.urls')),
     path('Publicaciones/', include('Aplicaciones.Publicaciones.urls')),
     path('Administrador/', include('Aplicaciones.Administrador.urls')),
+    path('Interez/', include('Aplicaciones.Interez.urls')),
+
 ]
 if settings.DEBUG:urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
