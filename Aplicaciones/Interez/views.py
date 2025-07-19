@@ -21,9 +21,16 @@ def registrar_interes(request, propiedad_id):
     return redirect('publicacion', id_propiedad=propiedad.id_propiedad)
 
 
+
 def intereses(request):
-    intereses = Interez.objects.select_related('usuario', 'propiedad').all()
+    if 'usuario_id' not in request.session:
+        messages.error(request, "Debes iniciar sesión para ver tus intereses.")
+        return redirect('iniciosesion')
+
+    usuario = get_object_or_404(Usuario, id=request.session['usuario_id'])
+    intereses = Interez.objects.select_related('usuario', 'propiedad').filter(usuario=usuario)
     return render(request, 'intereses.html', {'intereses': intereses})
+
 
 
 def eliminarinterez(request, interes_id):

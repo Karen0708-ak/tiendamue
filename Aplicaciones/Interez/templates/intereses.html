@@ -10,7 +10,6 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Usuario</th>
                 <th>Propiedad</th>
                 <th>Imagen</th>
@@ -21,7 +20,6 @@
         <tbody>
             {% for interes in intereses %}
             <tr>
-                <td>{{ interes.id }}</td>
                 <td>{{ interes.propiedad.usuario.usuario  }}</td>
                 <td>{{ interes.propiedad.titulo }}</td>
                 <td>
