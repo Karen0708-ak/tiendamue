@@ -1,9 +1,9 @@
 {% extends 'admin.html' %}
 {% load static %}
 {% block body %}
-<main class="container mt-4">
-    <h2 class="mb-4">Todas las Publicaciones</h2>
-    <table class="table table-striped">
+<main class="container mt-4"><br><br>
+    <h2 class="mb-4"><b>Todas las Publicaciones</b></h2><br>
+    <table class="table table-striped" id="admipubli">
       <thead>
         <tr>
           <th>Id</th>
@@ -49,4 +49,22 @@
         }
     </script>
 </main>
+
+<script>
+$(document).ready(function() {
+    let table = new DataTable('#admipubli', {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            'pdf',
+            'print'
+        ]
+    });
+});
+</script>
 {% endblock %}
