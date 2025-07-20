@@ -6,7 +6,6 @@
 
   <div class="d-flex justify-content-center align-items-center mb-3" style="gap: 10px;">
     <h2 class="text-center">Publicaciones</h2>
-
   </div>
 
   <div class="bg-white p-4 rounded shadow">
@@ -56,9 +55,13 @@
                       <span class="visually-hidden">comentarios</span>
                     </span>
                   </button>
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#denunciaModal{{ propiedad.id_propiedad }}">
-    Denunciar
-</button>
+                  {% if usuario_id != propiedad.usuario.id %}
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#denunciaModal{{ propiedad.id_propiedad }}">
+                      Denunciar
+                    </button>
+                  {% else %}
+                    <button class="btn btn-danger" disabled>Denunciar</button>
+                  {% endif %}
                 </div>
                 <div class="card-footer text-body-secondary">
                   Publicado el {{ propiedad.fecha_publicacion|date:"d M Y" }}
@@ -68,23 +71,25 @@
           </div>
         {% endfor %}
       </div>
+
       {% for propiedad in propiedades %}
-      <div class="modal fade" id="comentariosModal{{ propiedad.id_propiedad }}" tabindex="-1" aria-labelledby="comentariosModalLabel{{ propiedad.id_propiedad }}" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="comentariosModalLabel{{ propiedad.id_propiedad }}">Comentarios de "{{ propiedad.titulo }}"</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-              <ul class="list-group mb-3">
-                {% for comentario in propiedad.comentario_set.all %}
-                  <li class="list-group-item">
-                      <strong>{{ comentario.usuario.usuario }}:</strong> {{ comentario.comentario }}
-                  </li>
-                {% empty %}
-                    <li class="list-group-item text-muted">Aún no hay comentarios.</li>
-                {% endfor %}
+        <!-- Modal de Comentarios -->
+        <div class="modal fade" id="comentariosModal{{ propiedad.id_propiedad }}" tabindex="-1" aria-labelledby="comentariosModalLabel{{ propiedad.id_propiedad }}" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="comentariosModalLabel{{ propiedad.id_propiedad }}">Comentarios de "{{ propiedad.titulo }}"</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <ul class="list-group mb-3">
+                  {% for comentario in propiedad.comentario_set.all %}
+                    <li class="list-group-item">
+                        <strong>{{ comentario.usuario.usuario }}:</strong> {{ comentario.comentario }}
+                    </li>
+                  {% empty %}
+                      <li class="list-group-item text-muted">Aún no hay comentarios.</li>
+                  {% endfor %}
                 </ul>
                 <form class="form-comentario" data-id="{{ propiedad.id_propiedad }}">
                   {% csrf_token %}
@@ -93,46 +98,49 @@
                     <button class="btn btn-success" type="submit">Comentar</button>
                   </div>
                 </form>                
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Modal de Denuncia -->
-<div class="modal fade" id="denunciaModal{{ propiedad.id_propiedad }}" tabindex="-1" aria-labelledby="denunciaModalLabel{{ propiedad.id_propiedad }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
+
+        <!-- Modal de Denuncia (solo se muestra si no es del usuario) -->
+        {% if usuario_id != propiedad.usuario.id %}
+        <div class="modal fade" id="denunciaModal{{ propiedad.id_propiedad }}" tabindex="-1" aria-labelledby="denunciaModalLabel{{ propiedad.id_propiedad }}" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title" id="denunciaModalLabel{{ propiedad.id_propiedad }}">Reportar propiedad</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+              </div>
+              <div class="modal-body">
                 <p>Estás reportando la propiedad: <strong>{{ propiedad.titulo }}</strong></p>
                 <form id="formDenuncia{{ propiedad.id_propiedad }}" method="post" action="{% url 'registrar_denuncia' propiedad.id_propiedad %}">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="id_motivo{{ propiedad.id_propiedad }}" class="form-label">Motivo de la denuncia:</label>
-                        <select class="form-select" id="id_motivo{{ propiedad.id_propiedad }}" name="motivo" required>
-                            <option value="" selected disabled>Seleccione un motivo</option>
-                            <option value="Es mi propiedad">Es mi propiedad</option>
-                            <option value="Contenido inadecuado">Contenido inadecuado</option>
-                            <option value="Información incorrecta">Información incorrecta</option>
-                            <option value="Posible fraude">Posible fraude</option>
-                            <option value="Otro motivo">Otro motivo</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_descripcion{{ propiedad.id_propiedad }}" class="form-label">Descripción:</label>
-                        <textarea class="form-control" id="id_descripcion{{ propiedad.id_propiedad }}" name="descripcion" rows="3"></textarea>
-                    </div>
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="id_motivo{{ propiedad.id_propiedad }}" class="form-label">Motivo de la denuncia:</label>
+                    <select class="form-select" id="id_motivo{{ propiedad.id_propiedad }}" name="motivo" required>
+                      <option value="" selected disabled>Seleccione un motivo</option>
+                      <option value="Es mi propiedad">Es mi propiedad</option>
+                      <option value="Contenido inadecuado">Contenido inadecuado</option>
+                      <option value="Información incorrecta">Información incorrecta</option>
+                      <option value="Posible fraude">Posible fraude</option>
+                      <option value="Otro motivo">Otro motivo</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="id_descripcion{{ propiedad.id_propiedad }}" class="form-label">Descripción:</label>
+                    <textarea class="form-control" id="id_descripcion{{ propiedad.id_propiedad }}" name="descripcion" rows="3"></textarea>
+                  </div>
                 </form>
-            </div>
-            <div class="modal-footer">
+              </div>
+              <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" form="formDenuncia{{ propiedad.id_propiedad }}" class="btn btn-danger">Enviar denuncia</button>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div>
+        {% endif %}
       {% endfor %}
 
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselPropiedades" data-bs-slide="prev">
@@ -166,12 +174,9 @@
         },
         success: function (response) {
           if (response.success) {
-     
             const lista = form.closest('.modal-body').find('.list-group');
             const nuevoComentario = `<li class="list-group-item"><strong>${response.usuario}:</strong> ${response.comentario}</li>`;
             lista.append(nuevoComentario);
-
-
             form.find('input[name="comentario"]').val('');
           }
         },
