@@ -35,6 +35,6 @@ def registrar_denuncia(request, id_propiedad):
         )
         
         messages.success(request, 'Denuncia enviada correctamente. Gracias por tu reporte.')
-        return redirect('inicio')
+        return redirect('inicios')
     
     return render(request, 'denuncias/denuncia_modal.html')
