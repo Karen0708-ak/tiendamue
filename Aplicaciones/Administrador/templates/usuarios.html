@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block body %}
-<main class="container mt-4">
-  <h1 class="mb-4">Listado de Usuarios</h1>
+<main class="container mt-4"><br><br>
+  <h1 class="mb-4"><b>Listado de Usuarios</b></h1><br>
 
-  <table class="table table-striped table-bordered">
+  <table class="table table-striped table-bordered" id="adminuser">
     <thead>
       <tr>
         <th>ID</th>
@@ -32,4 +32,22 @@
     </tbody>
   </table>
 </main>
+
+<script>
+$(document).ready(function() {
+    let table = new DataTable('#adminuser', {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            'pdf',
+            'print'
+        ]
+    });
+});
+</script>
 {% endblock %}
