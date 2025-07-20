@@ -5,7 +5,7 @@
 <main class="container mt-4">
 
   <div class="d-flex justify-content-center align-items-center mb-3" style="gap: 10px;">
-    <h2 class="text-center">Publicaciones</h2>
+    <h2 class="text-center" style="font-size: 2.5rem; font-weight: bold;">Publicaciones</h2>
   </div>
 
   <div class="bg-white p-4 rounded shadow">
@@ -30,18 +30,24 @@
                   {{ propiedad.estado }}
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">{{ propiedad.titulo }}</h5>
+                  <h5 class="card-title" style="font-weight: bold;">{{ propiedad.titulo }}</h5>
                   {% if propiedad.imagen %}
                     <img src="{{ propiedad.imagen.url }}" class="img-fluid mb-3" alt="Imagen de {{ propiedad.titulo }}">
                   {% else %}
                     <p class="text-muted">Sin imagen</p>
                   {% endif %}
                   <p class="card-text">{{ propiedad.descripcion|truncatewords:20 }}</p>
-                  <p><strong>Ubicación:</strong> {{ propiedad.ubicacion }}</p>
-                  <p><strong>Precio:</strong> {{ propiedad.precio }}</p>
-                  <p><strong>Publicado por:</strong> {{ propiedad.usuario.usuario }}</p>
-                  <p><strong>Correo:</strong> {{ propiedad.usuario.correo }}</p>
-                  <p><strong>Teléfono:</strong> {{ propiedad.usuario.telefono }}</p>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <p><strong>Correo:</strong> {{ propiedad.usuario.correo }}</p>
+                      <p><strong>Teléfono:</strong> {{ propiedad.usuario.telefono }}</p>
+                    </div>
+                    <div class="text-end">
+                      <p><strong>Ubicación:</strong> {{ propiedad.ubicacion }}</p>
+                      <p><strong>Precio:</strong> {{ propiedad.precio }}</p>
+                      <p><strong>Publicado por:</strong> {{ propiedad.usuario.usuario }}</p>
+                    </div>
+                  </div>
                   <a href="{% url 'publicacion' propiedad.id_propiedad %}" class="btn btn-primary">Ver más</a>
                   {% if usuario_id != propiedad.usuario.id %}
                     <a href="{% url 'registrar_interes' propiedad.id_propiedad %}" class="btn btn-primary">Me interesa</a>
