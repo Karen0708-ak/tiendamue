@@ -2,6 +2,51 @@
 {% load static %}
 {% block body %}
 <main class="container mt-4">
-    <h1 class="mb-4">BIENVENIDO ADMINISTRADOR</h1>
+    <h2 class="mb-4">Todas las Publicaciones</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Título</th>
+          <th>Usuario</th>
+          <th>Fecha</th>
+          <th>Correo</th>
+          <th>Telefono</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for propiedad in propiedades %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ propiedad.titulo }}</td>
+          <td>{{ propiedad.usuario.usuario }}</td>
+          <td>{{ propiedad.fecha_publicacion|date:"d M Y" }}</td>
+          <td>{{ propiedad.usuario.correo }}</td>
+          <td>{{ propiedad.usuario.telefono }}</td>
+          <td><a style="color: red;" href="javascript:void(0);" onclick="confirmarEliminacion({{ propiedad.id_propiedad }})" class="btn btn-outline-danger">
+            <i class="fa fa-trash"></i></a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <script>
+        function confirmarEliminacion(id_propiedad) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¡Esta acción no se puede deshacer!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `eliminar_propiedad/${id_propiedad}`;
+                }
+            });
+        }
+    </script>
 </main>
 {% endblock %}
