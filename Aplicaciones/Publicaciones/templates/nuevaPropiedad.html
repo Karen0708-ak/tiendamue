@@ -3,56 +3,195 @@
 {% block body %}
 <div class="row">
     <div class="col-md-3"></div>
-    <div class="col-md-6 p-4 rounded">
-        <h1 class="mb-4">Nueva Publicación</h1>
+    <div class="col-md-6 p-4 rounded shadow bg-light">
+        <h1 class="mb-4 text-center">Nueva Publicación</h1>
 
-        <form action="guardarPropiedad" method="post" enctype="multipart/form-data">
+        <form action="guardarPropiedad" method="post" enctype="multipart/form-data" id="frm_nueva_propiedad">
             {% csrf_token %}
 
-            <label for="titulo">Título</label>
-            <input class="form-control mb-3" type="text" name="titulo" id="titulo" required>
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título (*)</label>
+                <input class="form-control" type="text" name="titulo" id="titulo" placeholder="Ingrese el título de la propiedad">
+            </div>
 
-            <label for="imagen">Imagen</label>
-            <input class="form-control mb-3" type="file" name="imagen" id="imagen" accept="image/*" required>
+            <div class="mb-3">
+                <label for="imagen" class="form-label">Imagen (*)</label>
+                <input class="form-control" type="file" name="imagen" id="imagen" accept="image/*">
+                <div class="small text-muted">Formatos aceptados: JPG, PNG, GIF. Tamaño máximo: 5MB</div>
+            </div>
 
-            <label for="descripcion">Descripción</label>
-            <textarea class="form-control mb-3" name="descripcion" id="descripcion" rows="3" required></textarea>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción (*)</label>
+                <textarea class="form-control" name="descripcion" id="descripcion" rows="5" placeholder="Describa la propiedad en detalle"></textarea>
+            </div>
 
-            <label for="precio">Precio</label>
-            <input class="form-control mb-3" type="number" step="0.01" name="precio" id="precio" required>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="precio" class="form-label">Precio (*)</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input class="form-control" type="number" step="0.01" name="precio" id="precio" placeholder="Ej: 150000.00">
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="estado" class="form-label">Estado (*)</label>
+                    <select class="form-select" name="estado" id="estado">
+                        <option value="" disabled selected>Seleccione un estado</option>
+                        <option value="Disponible">Disponible</option>
+                        <option value="No Disponible">No Disponible</option>
+                    </select>
+                </div>
+            </div>
 
-            <label for="">Ubicación</label>
-            <input class="form-control mb-3" type="text" name="ubicacion" id="ubicacion" required>
+            <div class="mb-3">
+                <label for="ubicacion" class="form-label">Ubicación (*)</label>
+                <input class="form-control" type="text" name="ubicacion" id="ubicacion" placeholder="Dirección o referencia">
+            </div>
 
-            <label for="latitud">Latitud</label>
-            <input class="form-control mb-3" type="text" placeholder="Seleccione en el mapa" name="latitud" id="latitud" readonly required>
+            <div class="mb-3">
+                <label class="form-label">Ubicación en Mapa (*)</label>
+                <div id="map" style="height: 300px; width: 100%;" class="mb-2 rounded border"></div>
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        <label for="latitud" class="form-label">Latitud</label>
+                        <input class="form-control" type="text" placeholder="Seleccione en el mapa" name="latitud" id="latitud" readonly>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="longitud" class="form-label">Longitud</label>
+                        <input class="form-control" type="text" placeholder="Seleccione en el mapa" name="longitud" id="longitud" readonly>
+                    </div>
+                </div>
+                <div class="small text-muted">Haga clic en el mapa o arrastre el marcador para seleccionar la ubicación exacta</div>
+            </div>
 
-            <label for="longitud">Longitud</label>
-            <input class="form-control mb-3" type="text" placeholder="Seleccione en el mapa" name="longitud" id="longitud" readonly required>
-
-            <div id="map" style="height: 300px; width: 100%;" class="mb-4"></div>
-
-            <label for="estado">Estado</label>
-                <select class="form-control mb-3" name="estado" id="estado" required>
-                    <option value="" disabled selected>Seleccione un estado</option>
-                    <option value="Disponible">Disponible</option>
-                    <option value="No Disponible">No Disponible</option>
-                </select>
-
-            <button class="btn btn-success" type="submit">Guardar</button>
-            <a class="btn btn-danger" href="{% url 'iniciopu' %}">Cancelar</a>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <a class="btn btn-outline-danger me-md-2" href="{% url 'iniciopu' %}">Cancelar</a>
+                <button class="btn btn-success" type="submit">Guardar Publicación</button>
+            </div>
         </form>
     </div>
     <div class="col-md-3"></div>
 </div>
 
+<!-- Incluir jQuery Validation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<!-- Incluir fileinput para arrastrar imágenes -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.0/css/fileinput.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.0/js/fileinput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.0/js/locales/es.min.js"></script>
 
+<!-- Google Maps API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap&libraries=places" async defer></script>
 
 <script>
+    // Configuración del fileinput para arrastrar imágenes
+    $(document).ready(function() {
+        $("#imagen").fileinput({
+            language: "es",
+            allowedFileExtensions: ["jpg", "png", "gif"],
+            showCaption: false,
+            dropZoneEnabled: true,
+            showClose: false,
+            browseLabel: "Seleccionar",
+            removeLabel: "Eliminar",
+            uploadLabel: "Subir",
+            dropZoneTitle: "Arrastra y suelta la imagen aquí...",
+            maxFileSize: 5120, // 5MB
+            msgSizeTooLarge: 'El archivo "{name}" (<b>{size} KB</b>) excede el tamaño máximo permitido de <b>{maxSize} KB</b>.',
+        });
+
+        // Validación del formulario
+        $("#frm_nueva_propiedad").validate({
+            rules: {
+                "titulo": {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 100
+                },
+                "imagen": {
+                    required: true,
+                    accept: "image/jpeg, image/png, image/gif"
+                },
+                "descripcion": {
+                    required: true,
+                    minlength: 20,
+                    maxlength: 1000
+                },
+                "precio": {
+                    required: true,
+                    number: true,
+                    min: 1000
+                },
+                "ubicacion": {
+                    required: true,
+                    minlength: 5
+                },
+                "latitud": {
+                    required: true
+                },
+                "longitud": {
+                    required: true
+                },
+                "estado": {
+                    required: true
+                }
+            },
+            messages: {
+                "titulo": {
+                    required: "⚠️ El título es obligatorio",
+                    minlength: "⚠️ Mínimo 10 caracteres",
+                    maxlength: "⚠️ Máximo 100 caracteres"
+                },
+                "imagen": {
+                    required: "⚠️ La imagen es obligatoria",
+                    accept: "⚠️ Solo imágenes (JPG, PNG, GIF)"
+                },
+                "descripcion": {
+                    required: "⚠️ La descripción es obligatoria",
+                    minlength: "⚠️ Mínimo 20 caracteres",
+                    maxlength: "⚠️ Máximo 1000 caracteres"
+                },
+                "precio": {
+                    required: "⚠️ El precio es obligatorio",
+                    number: "⚠️ Solo números",
+                    min: "⚠️ Mínimo $1000"
+                },
+                "ubicacion": {
+                    required: "⚠️ La ubicación es obligatoria",
+                    minlength: "⚠️ Mínimo 5 caracteres"
+                },
+                "latitud": {
+                    required: "⚠️ Seleccione una ubicación en el mapa"
+                },
+                "longitud": {
+                    required: "⚠️ Seleccione una ubicación en el mapa"
+                },
+                "estado": {
+                    required: "⚠️ Seleccione un estado"
+                }
+            },
+            errorElement: "span",
+            errorClass: "text-danger small",
+            errorPlacement: function(error, element) {
+                if (element.attr("name") === "imagen") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+
+    // Mapa interactivo
     function initMap() {
         const defaultLatLng = { lat: -1.8312, lng: -78.1834 }; // Ecuador central
-
         const map = new google.maps.Map(document.getElementById("map"), {
             center: defaultLatLng,
             zoom: 7,
@@ -65,25 +204,51 @@
             draggable: true
         });
 
-        
-
-        //geocodePosition(marker.getPosition());
-
-        map.addListener("click", function (event) {
+        map.addListener("click", function(event) {
             marker.setPosition(event.latLng);
-            document.getElementById("latitud").value = event.latLng.lat();
-            document.getElementById("longitud").value = event.latLng.lng();
-            geocodePosition(event.latLng);
+            updatePositionFields(event.latLng);
         });
 
-        marker.addListener("dragend", function () {
-            const pos = marker.getPosition();
-            document.getElementById("latitud").value = pos.lat();
-            document.getElementById("longitud").value = pos.lng();
-            geocodePosition(pos);
+        marker.addListener("dragend", function() {
+            updatePositionFields(marker.getPosition());
         });
+
+        function updatePositionFields(position) {
+            document.getElementById("latitud").value = position.lat().toFixed(6);
+            document.getElementById("longitud").value = position.lng().toFixed(6);
+            
+            // Opcional: Actualizar el campo de ubicación con la dirección
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ location: position }, (results, status) => {
+                if (status === "OK" && results[0]) {
+                    document.getElementById("ubicacion").value = results[0].formatted_address;
+                }
+            });
+        }
     }
-
-    
 </script>
+
+<style>
+    .file-drop-zone {
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+    }
+    .file-drop-zone:hover {
+        border-color: #0d6efd;
+        background-color: #f8f9fa;
+    }
+    .kv-avatar .file-input {
+        display: table-cell;
+        width: 250px;
+    }
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+    .error {
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+    }
+</style>
 {% endblock %}

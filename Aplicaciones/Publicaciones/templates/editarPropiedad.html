@@ -1,86 +1,281 @@
 {% extends 'plantilla.html' %}
 {% load static %}
 {% block body %}
-<div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6 p-4 rounded">
-        <h1 class="mb-4">Editar Publicación</h1>
+<br><br>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0 rounded-lg mt-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="h4 mb-0"><i class="bi bi-pencil-square me-2"></i>Editar Publicación</h2>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'procesarEdicionPropiedad' %}" method="post" enctype="multipart/form-data" id="frm_editar_propiedad">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ propiedad.id_propiedad }}">
 
-        <form action="{% url 'procesarEdicionPropiedad' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" name="id" value="{{ propiedad.id_propiedad }}">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="titulo" class="form-label">Título (*)</label>
+                            <input class="form-control" type="text" name="titulo" id="titulo" value="{{ propiedad.titulo }}" placeholder="Título de la propiedad">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="precio" class="form-label">Precio (*)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input class="form-control" type="number" step="0.01" name="precio" id="precio" value="{{ propiedad.precio }}" placeholder="Ej: 150000.00">
+                            </div>
+                        </div>
+                    </div>
 
-            <label for="titulo">Título</label>
-            <input class="form-control mb-3" type="text" name="titulo" id="titulo" value="{{ propiedad.titulo }}" required>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción (*)</label>
+                        <textarea class="form-control" name="descripcion" id="descripcion" rows="5" placeholder="Describa la propiedad en detalle">{{ propiedad.descripcion }}</textarea>
+                    </div>
 
-            <label for="imagen">Imagen</label>
-            {% if propiedad.imagen %}
-                <p>Imagen actual:</p>
-                <img src="{{ propiedad.imagen.url }}" alt="Imagen actual" height="80px"><br><br>
-            {% endif %}
-            <input class="form-control mb-3" type="file" name="imagen" id="imagen" accept="image/*">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="imagen" class="form-label">Imagen</label>
+                            {% if propiedad.imagen %}
+                                <div class="mb-3">
+                                    <p class="mb-1 small text-muted">Imagen actual:</p>
+                                    <img src="{{ propiedad.imagen.url }}" class="img-thumbnail" style="max-height: 150px;">
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" type="checkbox" name="eliminar_imagen" id="eliminar_imagen">
+                                        <label class="form-check-label small text-danger" for="eliminar_imagen">
+                                            Eliminar esta imagen
+                                        </label>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <input class="form-control" type="file" name="imagen" id="imagen" accept="image/*">
+                            <div class="small text-muted">Formatos aceptados: JPG, PNG, GIF. Tamaño máximo: 5MB</div>
+                        </div>
 
-            <label for="descripcion">Descripción</label>
-            <textarea class="form-control mb-3" name="descripcion" id="descripcion" rows="3" required>{{ propiedad.descripcion }}</textarea>
+                        <div class="col-md-6 mb-3">
+                            <label for="estado" class="form-label">Estado (*)</label>
+                            <select class="form-select" name="estado" id="estado">
+                                <option value="Disponible" {% if propiedad.estado == "Disponible" %}selected{% endif %}>Disponible</option>
+                                <option value="No Disponible" {% if propiedad.estado == "No Disponible" %}selected{% endif %}>No Disponible</option>
+                            </select>
+                        </div>
+                    </div>
 
-            <label for="">Precio</label>
-            <input class="form-control mb-3" type="text" step="0.01" name="precio" id="precio" value="{{ propiedad.precio }}" required>
+                    <div class="mb-3">
+                        <label for="ubicacion" class="form-label">Ubicación (*)</label>
+                        <input class="form-control" type="text" name="ubicacion" id="ubicacion" value="{{ propiedad.ubicacion }}" placeholder="Dirección o referencia">
+                    </div>
 
-            <label for="ubicacion">Ubicación</label>
-            <input class="form-control mb-3" type="text" name="ubicacion" id="ubicacion" value="{{ propiedad.ubicacion }}" required>
+                    <div class="mb-3">
+                        <label class="form-label">Ubicación en Mapa (*)</label>
+                        <div id="map" style="height: 300px; width: 100%;" class="mb-2 rounded border"></div>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label for="latitud" class="form-label">Latitud</label>
+                                <input class="form-control" type="text" name="latitud" id="latitud" value="{{ propiedad.latitud }}" readonly>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="longitud" class="form-label">Longitud</label>
+                                <input class="form-control" type="text" name="longitud" id="longitud" value="{{ propiedad.longitud }}" readonly>
+                            </div>
+                        </div>
+                        <div class="small text-muted">Haga clic en el mapa o arrastre el marcador para actualizar la ubicación</div>
+                    </div>
 
-            <label for="latitud">Latitud</label>
-            <input class="form-control mb-3" type="text" name="latitud" id="latitud" value="{{ propiedad.latitud }}" readonly required>
-
-            <label for="longitud">Longitud</label>
-            <input class="form-control mb-3" type="text" name="longitud" id="longitud" value="{{ propiedad.longitud }}" readonly required>
-
-            <div id="map" style="height: 300px; width: 100%;" class="mb-4"></div>
-
-            <label for="estado">Estado</label>
-            <select class="form-control mb-3" name="estado" id="estado" required>
-                <option value="Disponible" {% if propiedad.estado == "Disponible" %}selected{% endif %}>Disponible</option>
-                <option value="No Disponible" {% if propiedad.estado == "No Disponible" %}selected{% endif %}>No Disponible</option>
-            </select>
-
-            <button class="btn btn-success" type="submit">Actualizar</button>
-            <a class="btn btn-danger" href="{% url 'iniciopu' %}">Cancelar</a>
-        </form>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a class="btn btn-outline-danger me-md-2" href="{% url 'iniciopu' %}">
+                            <i class="bi bi-x-circle me-1"></i> Cancelar
+                        </a>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-save me-1"></i> Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="col-md-3"></div>
 </div>
 
+<!-- Incluir jQuery Validation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<!-- Incluir fileinput para arrastrar imágenes -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.0/css/fileinput.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.0/js/fileinput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.0/js/locales/es.min.js"></script>
+
+<!-- Google Maps API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap&libraries=places" async defer></script>
 
 <script>
-    function initMap() {
-        const lat = parseFloat(document.getElementById("latitud").value) || -1.8312;
-        const lng = parseFloat(document.getElementById("longitud").value) || -78.1834;
+    // Configuración del fileinput para arrastrar imágenes
+    $(document).ready(function() {
+        $("#imagen").fileinput({
+            language: "es",
+            allowedFileExtensions: ["jpg", "png", "gif"],
+            showCaption: false,
+            dropZoneEnabled: true,
+            showClose: false,
+            browseLabel: "Seleccionar",
+            removeLabel: "Eliminar",
+            uploadLabel: "Subir",
+            dropZoneTitle: "Arrastra y suelta la nueva imagen aquí...",
+            maxFileSize: 5120, // 5MB
+            msgSizeTooLarge: 'El archivo "{name}" (<b>{size} KB</b>) excede el tamaño máximo permitido de <b>{maxSize} KB</b>.',
+        });
 
+        // Validación del formulario
+        $("#frm_editar_propiedad").validate({
+            rules: {
+                "titulo": {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 100
+                },
+                "descripcion": {
+                    required: true,
+                    minlength: 20,
+                    maxlength: 1000
+                },
+                "precio": {
+                    required: true,
+                    number: true,
+                    min: 1000
+                },
+                "ubicacion": {
+                    required: true,
+                    minlength: 5
+                },
+                "latitud": {
+                    required: true
+                },
+                "longitud": {
+                    required: true
+                },
+                "estado": {
+                    required: true
+                }
+            },
+            messages: {
+                "titulo": {
+                    required: "⚠️ El título es obligatorio",
+                    minlength: "⚠️ Mínimo 10 caracteres",
+                    maxlength: "⚠️ Máximo 100 caracteres"
+                },
+                "descripcion": {
+                    required: "⚠️ La descripción es obligatoria",
+                    minlength: "⚠️ Mínimo 20 caracteres",
+                    maxlength: "⚠️ Máximo 1000 caracteres"
+                },
+                "precio": {
+                    required: "⚠️ El precio es obligatorio",
+                    number: "⚠️ Solo números",
+                    min: "⚠️ Mínimo $1000"
+                },
+                "ubicacion": {
+                    required: "⚠️ La ubicación es obligatoria",
+                    minlength: "⚠️ Mínimo 5 caracteres"
+                },
+                "latitud": {
+                    required: "⚠️ Seleccione una ubicación en el mapa"
+                },
+                "longitud": {
+                    required: "⚠️ Seleccione una ubicación en el mapa"
+                },
+                "estado": {
+                    required: "⚠️ Seleccione un estado"
+                }
+            },
+            errorElement: "span",
+            errorClass: "text-danger small",
+            errorPlacement: function(error, element) {
+                if (element.attr("name") === "imagen") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+
+    // Mapa interactivo
+    function initMap() {
+        const lat = parseFloat("{{ propiedad.latitud }}") || -1.8312;
+        const lng = parseFloat("{{ propiedad.longitud }}") || -78.1834;
         const defaultLatLng = { lat: lat, lng: lng };
 
         const map = new google.maps.Map(document.getElementById("map"), {
             center: defaultLatLng,
-            zoom: 10,
+            zoom: 15,
+            mapTypeId: 'hybrid',
         });
 
         const marker = new google.maps.Marker({
             position: defaultLatLng,
             map: map,
-            draggable: true
+            draggable: true,
+            title: "Ubicación de la propiedad"
         });
 
-        map.addListener("click", function (event) {
+        // Geocodificador para obtener dirección
+        const geocoder = new google.maps.Geocoder();
+
+        function updatePositionFields(position) {
+            document.getElementById("latitud").value = position.lat().toFixed(6);
+            document.getElementById("longitud").value = position.lng().toFixed(6);
+            
+            // Actualizar dirección si es posible
+            geocoder.geocode({ location: position }, (results, status) => {
+                if (status === "OK" && results[0]) {
+                    document.getElementById("ubicacion").value = results[0].formatted_address;
+                }
+            });
+        }
+
+        map.addListener("click", function(event) {
             marker.setPosition(event.latLng);
-            document.getElementById("latitud").value = event.latLng.lat();
-            document.getElementById("longitud").value = event.latLng.lng();
+            updatePositionFields(event.latLng);
         });
 
-        marker.addListener("dragend", function () {
-            const pos = marker.getPosition();
-            document.getElementById("latitud").value = pos.lat();
-            document.getElementById("longitud").value = pos.lng();
+        marker.addListener("dragend", function() {
+            updatePositionFields(marker.getPosition());
         });
+
+        // Inicializar con la ubicación actual
+        updatePositionFields(defaultLatLng);
     }
 </script>
+
+<style>
+    .file-drop-zone {
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+    }
+    .file-drop-zone:hover {
+        border-color: #0d6efd;
+        background-color: #f8f9fa;
+    }
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+    .error {
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+    }
+    .img-thumbnail {
+        max-width: 100%;
+        height: auto;
+    }
+    .card-header {
+        border-radius: 0.375rem 0.375rem 0 0 !important;
+    }
+</style>
 {% endblock %}
