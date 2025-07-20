@@ -2,45 +2,49 @@
 {% load static %}
 
 {% block body %}
-<main><br>
-    <h2><b>Usuarios interesados en mis publicaciones</b></h2><br>
-    <table class="table table-bordered table-striped table-hover" id="interesados">
-        <thead>
-            <tr>
-                <th>Usuario interesado</th>
-                <th>Publicación</th>
-                <th>Fecha interés</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for interes in intereses %}
+<main class="container py-4">
+
+    <div class="text-center mb-4"><br><br>
+        <h2 class="fw-bold">👥 Usuarios interesados en mis publicaciones</h2><br>
+        <hr class="w-50 mx-auto">
+    </div>
+
+    <div class="table-responsive shadow-sm rounded ">
+        <table class="table table-bordered  " id="interesados">
+            <thead >
                 <tr>
-                    <td>{{ interes.usuario.usuario }}</td>
-                    <td>{{ interes.propiedad.titulo }}</td>
-                    <td>{{ interes.fecha_interes }}</td>
+                    <th>Usuario interesado</th>
+                    <th>Publicación</th>
+                    <th>Fecha de interés</th>
                 </tr>
-            {% empty %}
-                <tr><td colspan="3">No hay usuarios interesados en tus publicaciones aún.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for interes in intereses %}
+                    <tr>
+                        <td>{{ interes.usuario.usuario }}</td>
+                        <td>{{ interes.propiedad.titulo }}</td>
+                        <td>{{ interes.fecha_interes|date:"d/m/Y H:i" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-muted">Ningún usuario ha mostrado interés en tus publicaciones aún.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </main>
 
 <script>
-$(document).ready(function() {
-    let table = new DataTable('#interesados', {
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
-        },
-        dom: 'Bfrtip',
-        buttons: [
-            'copy',
-            'csv',
-            'excel',
-            'pdf',
-            'print'
-        ]
+    $(document).ready(function() {
+        new DataTable('#interesados', {
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
+            },
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
     });
-});
 </script>
 {% endblock %}
