@@ -1,17 +1,31 @@
 {% extends 'plantilla.html' %}
 {% load static %}
+
 {% block body %}
-<main>
-    <h2>Mis Notificaciones</h2>
-    <ul class="list-group">
-    {% for notificacion in notificaciones %}
-        <li class="list-group-item {% if not notificacion.leido %}fw-bold{% endif %}">
-        {{ notificacion.mensaje }} <br>
-        <small class="text-muted">{{ notificacion.fecha|date:"d M Y H:i" }}</small>
-        </li>
-    {% empty %}
-        <li class="list-group-item">No tienes notificaciones.</li>
-    {% endfor %}
+<main class="container py-4">
+
+    <div class="text-center mb-4"><br><br>
+        <h2 class="fw-bold">📬 Mis Notificaciones</h2>
+        <hr class="w-50 mx-auto">
+    </div>
+<br>
+    <ul class="list-group shadow-sm">
+        {% for notificacion in notificaciones %}
+            <li class="list-group-item d-flex justify-content-between align-items-start {% if not notificacion.leido %}bg-light fw-bold border-start border-4 border-primary{% endif %}">
+                <div class="ms-2 me-auto">
+                    <div class="fw-semibold">{{ notificacion.mensaje }}</div>
+                    <small class="text-muted">{{ notificacion.fecha|date:"d M Y H:i" }}</small>
+                </div>
+                {% if not notificacion.leido %}
+                    <span class="badge bg-primary rounded-pill">Nuevo</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="list-group-item text-center text-muted">
+                No tienes notificaciones.
+            </li>
+        {% endfor %}
     </ul>
+
 </main>
 {% endblock %}
