@@ -114,7 +114,9 @@ def perfil_usuario(request):
 def detalle_propiedad(request, id_propiedad):
     propiedad = get_object_or_404(Propiedad, pk=id_propiedad)
     usuario = propiedad.usuario
+    usuario_id = request.session.get('usuario_id')
     return render(request, 'publicacion.html', {
         'propiedad': propiedad,
-        'usuario': usuario
+        'usuario': usuario,
+        'usuario_id':usuario_id,
     })
