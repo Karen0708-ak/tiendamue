@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block body %}
-<main>
-    <h2>Usuarios interesados en mis publicaciones</h2>
-    <table class="table table-bordered table-striped table-hover">
+<main><br>
+    <h2><b>Usuarios interesados en mis publicaciones</b></h2><br>
+    <table class="table table-bordered table-striped table-hover" id="interesados">
         <thead>
             <tr>
                 <th>Usuario interesado</th>
@@ -25,4 +25,22 @@
         </tbody>
     </table>
 </main>
+
+<script>
+$(document).ready(function() {
+    let table = new DataTable('#interesados', {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            'pdf',
+            'print'
+        ]
+    });
+});
+</script>
 {% endblock %}
