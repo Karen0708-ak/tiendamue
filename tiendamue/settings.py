@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Aplicaciones.Comentario',
     'Aplicaciones.Notificacion',
     'Aplicaciones.Interesados',
+    'Aplicaciones.Denuncias',
 
 ]
 
@@ -134,3 +135,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (os.path.join(BASE_DIR,'tiendamue/media'))
+
+
+# Configuración de correo electrónico
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'estivenmonta3212@gmail.com'  # Cambiar por tu correo
+EMAIL_HOST_PASSWORD = 'fwna sleb qqjv htum'  # Usar contraseña de aplicación de Google
