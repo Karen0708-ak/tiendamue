@@ -9,7 +9,8 @@
     <h2 class="text-center" style="font-size: 2.5rem; font-weight: bold;">Publicaciones</h2>
   </div>
 
-  <div ><br>
+  <div class="overflow-hidden mx-auto" style="max-width: 900px;">
+  <br>
     <div id="carouselPropiedades" class="carousel carousel-dark slide" data-bs-ride="carousel">
       
       <div class="carousel-indicators">
@@ -26,7 +27,7 @@
         {% for propiedad in propiedades %}
           <div class="carousel-item {% if forloop.first %}active{% endif %}">
             <div class="d-flex justify-content-center">
-              <div class="card text-center" style="width: 60rem;">
+              <div class="card text-center mx-auto" style="max-width: 700px; width: 100%;">
                 <div class="card-header">
                   {{ propiedad.estado }}
                 </div>
