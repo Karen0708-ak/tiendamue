@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión | Plataforma</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/localization/messages_es.min.js"></script>
     <style>
         :root {
             --primary-color: #ff264a;
@@ -144,6 +147,14 @@
             text-decoration: none;
             font-weight: 500;
         }
+        /*Estilo de mensaje para la validacion*/
+        .error{
+            color:red;
+            font-weight: bold;
+        }
+        .form-control.error{
+            border: 1px solid red;
+        }
 
         @media (max-width: 768px) {
             .container {
@@ -173,7 +184,7 @@
 
         <h1>Iniciar Sesión</h1>
 
-        <form method="POST" action="{% url 'iniciosesion' %}">
+        <form method="POST" action="{% url 'iniciosesion' %}" id="frm_inicio_sesion">
             {% csrf_token %}
             <div class="form-group">
                 <label for="usuario">Usuario</label>
@@ -204,5 +215,32 @@
         </script>
         {% endfor %}
     {% endif %}
+    <script>
+        $(document).ready(function () {
+            $("#frm_inicio_sesion").validate({
+                rules: {
+                    usuario: {
+                        required: true,
+                    },
+                    contrasena: {
+                        required: true
+                    }
+                },
+                messages: {
+                    usuario: {
+                        required: "Por favor, ingresa su nombre de usuario"
+                    },
+                    contrasena: {
+                        required: "Por favor, ingrese su contraseña",
+                    }
+                },
+                errorElement: "div",
+                errorPlacement: function (error, element) {
+                    error.addClass("text-danger mt-1");
+                    error.insertAfter(element);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

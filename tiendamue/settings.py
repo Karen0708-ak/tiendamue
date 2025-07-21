@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'Aplicaciones.Notificacion',
     'Aplicaciones.Interesados',
     'Aplicaciones.Denuncias',
-
+    'Aplicaciones.HistorialU',
+    'Aplicaciones.HistorialA',
 ]
 
 MIDDLEWARE = [

@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro | Plataforma</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/localization/messages_es.min.js"></script>
+
     <style>
         :root {
             --primary-color: #ff264a;
@@ -144,6 +148,15 @@
             text-decoration: none;
             font-weight: 500;
         }
+       /*Estilo de mensaje para la validacion*/
+        .error{
+            color:red;
+            font-weight: bold;
+        }
+        .form-control.error{
+            border: 1px solid red;
+        }
+        
 
         @media (max-width: 768px) {
             .container {
@@ -173,7 +186,7 @@
 
         <h1>Crear Cuenta</h1>
 
-        <form action="{% url 'guardaregistro' %}" method="post">
+        <form action="{% url 'guardaregistro' %}" id="frm_nuevo_usuario" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="usuario">Usuario</label>
@@ -213,5 +226,60 @@
         </script>          
         {% endfor %}
     {% endif %}
+    <script>
+        $(document).ready(function () {
+            $("#frm_nuevo_usuario").validate({
+                rules: {
+                    usuario: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 10
+                    },
+                    correo: {
+                        required: true,
+                        email: true
+                    },
+                    contrasena: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 10
+                    },
+                    telefono: {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 10
+                    }
+                },
+                messages: {
+                    usuario: {
+                        required: "Por favor, ingresa un nombre de usuario",
+                        minlength: "Debe tener al menos 4 caracteres",
+                        maxlength: "No debe exceder los 10 caracteres"
+                    },
+                    correo: {
+                        required: "Por favor, ingresa tu correo electrónico",
+                        email: "El correo electrónico no es válido"
+                    },
+                    contrasena: {
+                        required: "Por favor, ingresa una contraseña",
+                        minlength: "Debe tener al menos 6 caracteres",
+                        maxlength: "No debe exceder los 10 dígitos"
+                    },
+                    telefono: {
+                        required: "Por favor, ingresa tu número de teléfono",
+                        digits: "Solo se permiten números",
+                        minlength: "Debe tener al menos 10 dígitos",
+                        maxlength: "No debe exceder los 10 dígitos"
+                    }
+                },
+                errorElement: "div",
+                errorPlacement: function (error, element) {
+                    error.addClass("text-danger mt-1");
+                    error.insertAfter(element);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
