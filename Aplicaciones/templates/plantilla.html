@@ -491,6 +491,16 @@ body.dark-mode .table-hover tbody tr:hover {
       setInterval(cargarNotificaciones, 30000);
     });
   </script>
+  <script>
+    window.addEventListener("load", function () {
+      const preloader = document.getElementById("preloader");
+      if (preloader) {
+        preloader.style.opacity = "0";
+        preloader.style.visibility = "hidden";
+        preloader.style.pointerEvents = "none";
+      }
+    });
+  </script>
   
   
 </body>
