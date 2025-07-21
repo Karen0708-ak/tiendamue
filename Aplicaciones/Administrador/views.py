@@ -44,3 +44,11 @@ def eliminar_propiedad(request, id_propiedad):
         f"Eliminaste la propiedad '{propiedad.titulo}."
     )
     return redirect('admiin')
+
+from django.shortcuts import render, redirect
+from Aplicaciones.HistorialU.models import HistorialUsuario
+
+def historialusuarios(request):
+    historial = HistorialUsuario.objects.select_related('usuario').all().order_by('-fecha')
+
+    return render(request, 'historialusuarios.html', {'historial': historial})

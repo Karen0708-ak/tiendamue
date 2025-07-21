@@ -171,6 +171,11 @@
           <a href="{% url 'adminhistorial' %}" class="{% if request.resolver_match.url_name == 'adminhistorial' %}active{% endif %}">
             <i class="bi bi-file-earmark-text navicon"></i> HISTORIAL
           </a>
+        </li>
+        <li>
+          <a href="{% url 'historialusuarios' %}" class="{% if request.resolver_match.url_name == 'historialusuarios' %}active{% endif %}">
+            <i class="bi bi-file-earmark-text navicon"></i> HISTORIAL DE USUARIOS
+          </a>
         </li><br>
         <li><a href="#" onclick="confirmarCerrarSesion()"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li>
       </ul>
