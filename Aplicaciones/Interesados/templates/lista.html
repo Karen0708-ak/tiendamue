@@ -50,6 +50,12 @@
                 'pdf',
                 'print'
             ],
+            paging: true,            
+            pageLength: 6,         
+            lengthMenu: [           
+                [5, 10, 25, 50, -1], 
+                [5, 10, 25, 50, "Todos"] 
+            ],
             initComplete: function () {
                 let inputBuscador = $('#interesados_filter input');
     
