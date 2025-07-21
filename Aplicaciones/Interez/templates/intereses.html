@@ -7,7 +7,7 @@
     <h1 class="text-center"><b>MIS INTERESES</b></h1><br>
     <hr>
 
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered table-striped table-hover" id="intereses_table">
         <thead>
             <tr>
                 <th>Usuario</th>
@@ -61,5 +61,66 @@
             });
         }
     </script>
+    <script>
+        $(document).ready(function() {
+            let table = $('#intereses_table').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy',
+                    'csv',
+                    'excel',
+                    'pdf',
+                    'print'
+                ],
+                initComplete: function () {
+                    let inputBuscador = $('#intereses_table_filter input');
+        
+                    // Estilo y placeholder
+                    inputBuscador
+                        .attr('placeholder', 'Buscar en todas las columnas...')
+                        .css({'width': '300px', 'display': 'inline-block'});
+        
+                    // Recopilar textos únicos de todas las celdas visibles en la tabla
+                    let sugerencias = new Set();
+        
+                    table.rows({search: 'applied'}).every(function(){
+                        let data = this.data();
+                        data.forEach(function(celda){
+                            if(celda && celda.trim() !== ''){
+                                let textoPlano = $('<div>').html(celda).text().trim();
+                                if(textoPlano !== ''){
+                                    sugerencias.add(textoPlano);
+                                }
+                            }
+                        });
+                    });
+        
+                    let listaSugerencias = Array.from(sugerencias);
+                    inputBuscador.autocomplete({
+                        source: listaSugerencias,
+                        select: function(event, ui) {
+                            table.search(ui.item.value).draw();
+                            return false; // Para evitar que autocomplete ponga el texto manualmente
+                        },
+                        focus: function(event, ui) {
+                            // Para que cuando se navegue con teclado no modifique el input
+                            event.preventDefault();
+                            inputBuscador.val(ui.item.value);
+                        },
+                        minLength: 1
+                    });
+        
+                    // Opcional: para que al escribir en el input filtre inmediatamente la tabla
+                    inputBuscador.on('input', function(){
+                        let valor = $(this).val();
+                        table.search(valor).draw();
+                    });
+                }
+            });
+        });
+        </script>
 </main>
 {% endblock %}
