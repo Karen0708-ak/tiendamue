@@ -7,6 +7,8 @@ from Aplicaciones.Administrador.models import Administrador
 from Aplicaciones.Publicaciones.models import Propiedad
 from django.http import JsonResponse
 from Aplicaciones.Notificacion.models import Notificacion
+from Aplicaciones.HistorialU.utils import registrar_historial
+from Aplicaciones.HistorialA.utils import registrar_historial_admin
 
 def index(request):
     usuario = Usuario.objects.all()
@@ -66,6 +68,7 @@ def iniciosesion(request):
             if check_password(input_contrasena, admin.passwo):
                 request.session['admin_id'] = admin.id
                 messages.success(request, '¡Bienvenido!')
+                registrar_historial_admin(request, "Inicio de sesión", f"El administrador '{admin.user}' inició sesión.")
                 return redirect('admiin')
         except Administrador.DoesNotExist:
             pass
@@ -77,6 +80,7 @@ def iniciosesion(request):
                 request.session['usuario_id'] = usuario.id
                 request.session['usuario_nombre'] = usuario.usuario
                 messages.success(request, '¡Bienvenido!')
+                registrar_historial(request, "Inicio de sesión", f"Ha iniciado sesión")
                 return redirect('inicios')
             else:
                 messages.error(request, 'Contraseña incorrecta.')
@@ -103,7 +107,7 @@ def perfil_usuario(request):
 
         if nueva_contrasena:
             usuario.contrasena = make_password(nueva_contrasena)
-
+        registrar_historial(request, "Edición Perfil", f"Ha editado su perfil")
         usuario.save()
         return JsonResponse({'success': True, 'message': 'Datos actualizados correctamente'})
 

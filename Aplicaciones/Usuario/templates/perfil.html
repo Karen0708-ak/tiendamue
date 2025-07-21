@@ -113,9 +113,16 @@
                             $('#dato-correo').text($('input[name="correo"]').val());
                             $('#dato-telefono').text($('input[name="telefono"]').val() || 'No especificado');
 
+                          
                             // Cerrar modal
                             const modal = bootstrap.Modal.getInstance(document.getElementById('modalEditar'));
                             modal.hide();
+
+                            // Eliminar el hover/backdrop si queda visible
+                            setTimeout(() => {
+                                $('.modal-backdrop').remove();
+                                $('body').removeClass('modal-open').css('padding-right', '');
+                            }, 300); // espera que termine la animación
                         }
                     },
                     error: function (xhr) {
@@ -135,4 +142,5 @@
         });
     </script>
 </main>
+
 {% endblock %}

@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from Aplicaciones.Publicaciones.models import Propiedad
 from Aplicaciones.Usuario.models import Usuario
+from .models import Administrador
+from Aplicaciones.HistorialA.utils import registrar_historial_admin
 # Create your views here.
 def admiin(request):
     if 'admin_id' not in request.session:
@@ -35,4 +37,10 @@ def eliminar_propiedad(request, id_propiedad):
 
     propiedad.delete()
     messages.success(request, 'Propiedad eliminada y usuario notificado correctamente.')
+    admin = Administrador.objects.get(id=request.session['admin_id'])
+    registrar_historial_admin(
+        request,
+        "Eliminar propiedad",
+        f"Eliminaste la propiedad '{propiedad.titulo}."
+    )
     return redirect('admiin')

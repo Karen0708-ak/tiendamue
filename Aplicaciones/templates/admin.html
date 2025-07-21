@@ -168,7 +168,7 @@
         </li>
       
         <li>
-          <a href="#" class="{% if request.resolver_match.url_name == 'historial_admin' %}active{% endif %}">
+          <a href="{% url 'adminhistorial' %}" class="{% if request.resolver_match.url_name == 'adminhistorial' %}active{% endif %}">
             <i class="bi bi-file-earmark-text navicon"></i> HISTORIAL
           </a>
         </li><br>

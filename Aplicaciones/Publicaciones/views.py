@@ -4,6 +4,8 @@ from Aplicaciones.Usuario.models import Usuario
 from .models import Propiedad
 from Aplicaciones.Interez.models import Interez
 from Aplicaciones.Notificacion.models import Notificacion 
+from Aplicaciones.HistorialU.utils import registrar_historial
+
 def inicio(request):
     usuario_actual = Usuario.objects.get(id=request.session['usuario_id']) 
     listado_propiedades = Propiedad.objects.filter(usuario=usuario_actual)
@@ -37,6 +39,7 @@ def guardarPropiedad(request):
             imagen=imagen,
             usuario=usuario_actual
         )
+        registrar_historial(request, "Crear propiedad", f"Registró una nueva propiedad: {titulo}")
 
         messages.success(request, "Propiedad guardada exitosamente")
         return redirect('iniciopu')
@@ -51,6 +54,7 @@ def eliminarPropiedad(request, id):
     Interez.objects.filter(propiedad=propiedad).delete()
     propiedad.delete()
     messages.success(request, "Propiedad eliminada exitosamente")
+    registrar_historial(request, "Eliminar propiedad", f"Eliminó la propiedad: {propiedad.titulo}")
     return redirect('iniciopu')
 
 def editarPropiedad(request, id):
@@ -81,6 +85,7 @@ def procesarEdicionPropiedad(request):
 
         if imagen_nueva:
             propiedad.imagen = imagen_nueva
+        registrar_historial(request, "Editar propiedad", f"Editó la propiedad: {propiedad.titulo}")
 
         propiedad.save()
         interesados = Interez.objects.filter(propiedad=propiedad)

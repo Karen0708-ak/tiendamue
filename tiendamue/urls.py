@@ -34,6 +34,8 @@ urlpatterns = [
     path('Interesados/', include('Aplicaciones.Interesados.urls')),
     path('Notificacion/', include('Aplicaciones.Notificacion.urls')),
     path('Denuncias/', include('Aplicaciones.Denuncias.urls')),
+    path('HistorialU/', include('Aplicaciones.HistorialU.urls')),
+    path('HistorialA/', include('Aplicaciones.HistorialA.urls')),
 
 ]
 if settings.DEBUG:urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
