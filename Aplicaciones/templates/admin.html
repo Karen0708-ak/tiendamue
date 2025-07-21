@@ -132,6 +132,22 @@
   body.dark-mode .table-bordered {
     border-color: #444;
   }
+   /* Ajuste para contenido con sidebar fijo a la izquierda */
+   main.container {
+      margin-left: 300px;
+      padding: 20px;
+      max-width: calc(100% - 300px);
+      box-sizing: border-box;
+    }
+
+    /* Para dispositivos móviles, opcionalmente */
+    @media (max-width: 768px) {
+      main.container {
+        margin-left: 0;  /* Quitar margen para pantallas pequeñas */
+        max-width: 100%;
+        padding: 10px;
+      }
+    }
 </style>
 </head>
 

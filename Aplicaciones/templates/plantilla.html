@@ -75,12 +75,6 @@
       background-color: #121212;
       color: #eee;
     }
-    body, html {
-      overflow-x: hidden;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
 
     body.dark-mode a {
       color: #bbb; 
@@ -152,7 +146,23 @@
     body.dark-mode .table-bordered {
       border-color: #444;
     }
-    
+    /* Ajuste para contenido con sidebar fijo a la izquierda */
+    main.container {
+      margin-left: 300px;
+      padding: 20px;
+      max-width: calc(100% - 300px);
+      box-sizing: border-box;
+    }
+
+    /* Para dispositivos móviles, opcionalmente */
+    @media (max-width: 768px) {
+      main.container {
+        margin-left: 0;  /* Quitar margen para pantallas pequeñas */
+        max-width: 100%;
+        padding: 10px;
+      }
+    }
+
     #btn-notificaciones {
       position: fixed;
       top: 15px;
@@ -176,7 +186,121 @@
         border: 1px solid #ccc;
         font-size: 14px;
       }
-      
+      /*Estilos para evitar el desvordamiento de las tablas*/
+      html, body {
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+
+    table th, table td {
+      padding: 10px 12px;
+      vertical-align: middle;
+      text-align: center;
+      border: 1px solid #dee2e6;
+      white-space: normal;
+    }
+
+    table th {
+      background-color: #f8f9fa; /* gris claro */
+      color: #212529; /* texto oscuro */
+      font-weight: 600;
+    }
+
+    table tbody tr:hover {
+      background-color: #f1f7ff;
+    }
+
+    table img {
+      max-width: 80px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .btn {
+      margin: 0 4px 4px 0;
+      font-size: 0.9rem;
+      padding: 5px 10px;
+    }
+
+    .text-center a.btn {
+      padding: 8px 20px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    body.dark-mode .dt-button {
+  background-color: #2a2a2a !important;
+  color: #eee !important;
+  border: 1px solid #555 !important;
+  box-shadow: none !important;
+}
+
+body.dark-mode .dt-button:hover,
+body.dark-mode .dt-button:focus,
+body.dark-mode .dt-button:active {
+  background-color: #444 !important;
+  color: #fff !important;
+  border-color: #888 !important;
+  box-shadow: none !important;
+}
+body.dark-mode .table-responsive {
+  background-color: #1e1e1e !important;
+  border-color: #444 !important;
+}
+
+body.dark-mode table {
+  background-color: #1e1e1e !important;
+  color: #ddd !important;
+  border-color: #444 !important;
+}
+
+body.dark-mode th {
+  background-color: #2a2a2a !important;
+  color: #fff !important;
+}
+
+body.dark-mode td {
+  background-color: #1e1e1e !important;
+  color: #ddd !important;
+  border-color: #444 !important;
+}
+
+body.dark-mode .table-hover tbody tr:hover {
+  background-color: #333 !important;
+}
   </style>
 </head>
 
