@@ -85,8 +85,12 @@ WSGI_APPLICATION = 'tiendamue.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'tienda.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tienda', 
+        'USER': 'karen',
+        'PASSWORD': '0708ak',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
